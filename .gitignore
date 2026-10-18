@@ -1,0 +1,46 @@
+# TeX compilation and editors
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.ilg
+*.ind
+*.idx
+*.glg
+*.glo
+*.gls
+*.ist
+*.acn
+*.acr
+*.alg
+*.bak
+*.tmp
+*.swp
+*.swo
+*.tex~
+*.txss2
+*.txss
+*.synctex(busy)
+build/
+dist/
+.DS_Store
+Thumbs.db
+# Compiled outputs; source files remain tracked.
+*.pdf
+# No local credentials or font binaries in a shared repo.
+*.ttf
+*.otf
+.env

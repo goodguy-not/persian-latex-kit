@@ -1,0 +1,120 @@
+% Persian LaTeX Kit -- reusable, course-independent design system
+% License status: reserved to the repository owner until one is selected.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{persian-kit}[2026/10/19 v1.1 Reusable Persian document components]
+% Define metadata before \begin{document}; this package uses values only when rendering title.
+% XePersian must be loaded after all other \RequirePackage commands.
+\RequirePackage[a4paper,top=22mm,bottom=23mm,left=23mm,right=23mm,headheight=17pt]{geometry}
+\RequirePackage[table]{xcolor}
+\RequirePackage{array,tabularx,booktabs,multirow}
+\RequirePackage{graphicx}
+\RequirePackage{float}
+
+\RequirePackage{titlesec}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{xepersian}
+
+% ---- Fonts: preferred B Nazanin; Amiri fallback for machines missing it. ----
+% Font files are NOT distributed in this project.
+\IfFontExistsTF{B Nazanin}{%
+  \settextfont[Scale=1.13]{B Nazanin}%
+  \setdigitfont[Scale=1.13]{B Nazanin}%
+}{%
+  \settextfont[Scale=1.13]{Amiri}%
+  \setdigitfont[Scale=1.13]{Amiri}%
+  \typeout{HW-TEMPLATE-WARNING: B Nazanin not found; using Amiri.}%
+}
+\IfFontExistsTF{Times New Roman}{%
+  \setlatintextfont{Times New Roman}%
+}{%
+  \setlatintextfont{Liberation Serif}%
+}
+% Font digits follow the selected Persian typeface.
+
+% ---- Theme palette (change these hex codes to recolor the whole project). ----
+\definecolor{HWNavy}{HTML}{17324F}
+\definecolor{HWBlue}{HTML}{216EA0}
+\definecolor{HWTeal}{HTML}{087D84}
+\definecolor{HWLight}{HTML}{EAF4F8}
+\definecolor{HWStripe}{HTML}{F2F7FA}
+\definecolor{HWLine}{HTML}{D1E3EB}
+\definecolor{HWMuted}{HTML}{64748B}
+
+% ---- Paragraphs and section hierarchy (single central control). ----
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\linespread{1.12}
+\titleformat{\section}[hang]{\Large\bfseries\color{HWNavy}}{\thesection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{19pt}{9pt}
+\titleformat{\subsection}[hang]{\large\bfseries\color{HWBlue}}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{13pt}{6pt}
+\titleformat{\subsubsection}[hang]{\normalsize\bfseries\color{HWTeal}}{}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{9pt}{4pt}
+
+% ---- Stable Persian page numbering; avoid incompatible header packages. ----
+\pagestyle{plain}
+
+% ---- Reusable inline helpers. ----
+% For Latin words with parentheses inside Persian text: \EN{Resource}
+\newcommand{\EN}[1]{\lr{(#1)}}
+\newcommand{\Term}[2]{\textbf{#1} \EN{#2}}
+\newcommand{\SmallNote}[1]{{\small\color{HWMuted}#1}}
+
+% ---- A consistent cover/title for all future assignments. ----
+\newcommand{\MakeHomeworkTitle}{%
+  \begin{center}
+    {\large\bfseries\color{HWNavy}به نام خدا}\\[9pt]
+    {\Large\bfseries\color{HWNavy}\HWAssignment}\\[5pt]
+    {\normalsize\color{HWMuted}\HWInstitution\quad | \quad\HWCourse}\\[7pt]
+    {\small استاد: \HWProfessor\quad\textbullet\quad \HWTerm}\\[8pt]
+    {\small \textbf{دانشجو:} \HWStudentName\qquad \textbf{شماره دانشجویی:} \HWStudentID}
+  \end{center}
+  \vspace{2pt}\noindent\color{HWLine}\rule{\linewidth}{0.8pt}\color{black}
+  \vspace{7pt}
+}
+
+% ---- Reusable semantic boxes. ----
+\newtcolorbox{HWTip}[1][]{enhanced,breakable,boxrule=0.55pt,colback=HWLight,
+  colframe=HWLine,arc=1.5mm,left=3mm,right=3mm,top=2mm,bottom=2mm,
+  borderline west={2.5pt}{0pt}{HWTeal},#1}
+\newtcolorbox{HWWarning}[1][]{enhanced,breakable,boxrule=0.55pt,colback=white,
+  colframe=HWLine,arc=1.5mm,left=3mm,right=3mm,top=2mm,bottom=2mm,
+  borderline west={2.5pt}{0pt}{HWBlue},#1}
+
+% ---- Reusable shaded table formatting (uniform style for every table). ----
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcommand{\HWTableStart}{\rowcolors{2}{HWStripe}{white}\renewcommand{\arraystretch}{1.35}}
+\newcommand{\HWTableEnd}{\rowcolors{2}{}{}}
+\newcommand{\HWTableHead}[1]{\color{white}\bfseries #1}
+
+% ---- Figures drawn on tablet: PDF or PNG, centered with caption. ----
+\newcommand{\HWFigure}[3][0.85]{%
+  \begin{figure}[htbp]\centering
+    \includegraphics[width=#1\linewidth]{#2}\\[3pt]
+    {\small\color{HWMuted}#3}
+  \end{figure}%
+}
+
+
+% ---- Optional scoped, width-adaptive table wrapper. ----
+\NewDocumentEnvironment{HWTable}{m +b}{%
+  \begingroup
+  \renewcommand{\arraystretch}{1.35}%
+  \rowcolors{2}{HWStripe}{white}%
+  \begin{tabularx}{\linewidth}{#1}
+  #2
+  \end{tabularx}%
+  \endgroup
+}
+
+
+% ---- Course-neutral defaults; override in config/metadata.tex. ----
+\providecommand{\HWStudentName}{نام دانشجو}
+\providecommand{\HWStudentID}{شماره دانشجویی}
+\providecommand{\HWCourse}{عنوان درس}
+\providecommand{\HWProfessor}{نام استاد}
+\providecommand{\HWTerm}{نیمسال تحصیلی}
+\providecommand{\HWAssignment}{عنوان تمرین}
+\providecommand{\HWInstitution}{دانشگاه / دانشکده}
