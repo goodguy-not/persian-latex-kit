@@ -1,9 +1,17 @@
 % !TeX program = xelatex
-% Copy this template into a NEW course project with Git submodule at vendor/persian-latex-kit.
+% فارسی: فقط همین فایل را با XeLaTeX اجرا کنید.
+% این پروژه کتابخانه را از vendor/persian-latex-kit دریافت می‌کند.
 \documentclass[12pt,a4paper]{article}
 \usepackage{vendor/persian-latex-kit/tex/persian-kit}
 \input{config/metadata}
+
 \begin{document}
+\HWActivateAssignmentLayout
 \MakeHomeworkTitle
+
+% پاسخ هر سؤال در فایل جدا قرار می‌گیرد؛ ترتیب را همین‌جا تعیین کنید.
 \input{questions/question01}
+% \input{questions/question02}
+% \input{questions/question03}
+
 \end{document}

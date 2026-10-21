@@ -51,3 +51,18 @@
 ```
 
 برای اجرای قطعات آماده، `gallery.tex` را کامپایل کن. برای ذخیرهٔ هر قطعهٔ جدید: کد در کتابخانه، مثال در `examples/snippets`، راهنما در همین فایل و ثبت تغییر در CHANGELOG.
+
+
+## قالب مادر تمرین
+
+```latex
+\HWActivateAssignmentLayout
+\MakeHomeworkTitle
+\HWQuestion[عنوان اختیاری]
+\HWPart{الف}
+متن پاسخ...
+\HWPart{ب}
+متن پاسخ...
+```
+
+اطلاعات درس فقط در `config/metadata.tex` و متن سؤال‌ها در `questions/` قرار می‌گیرند. راهنما: [قالب تکلیف](HOMEWORK_TEMPLATE_FA.md).

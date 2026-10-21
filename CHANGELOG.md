@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 — Generic homework master template (2026-10-21)
+- Added automatic question and part heading commands (HWQuestion, HWPart, HWSubpart).
+- Improved assignment title, metadata card, Persian page footer and stable page layout.
+- Added due date metadata and generic question 2 table example.
+- Expanded Windows project setup workflow and usage documentation.
+- No actual student/course data or font binaries are distributed.
+
 ## 1.1.0 — Git-ready course-neutral library (2026-10-19)
 - Extracted the original XePersian design into `tex/persian-kit.sty`.
 - Removed course-specific student data and assignment answers from the reusable library.

@@ -1,0 +1,15 @@
+Persian LaTeX Kit v1.2.0 — UPDATE PATCH
+
+1. Extract the contents of this ZIP into the ROOT of your existing persian-latex-kit Git repository.
+   Do NOT make a new nested folder; keep your existing .git folder.
+2. In PowerShell, inside the repo folder:
+      git status
+      git add .
+      git commit -m "Add reusable homework master template v1.2.0"
+      git push origin main
+3. For a new assignment, run (adjust the path):
+      .\scripts\new-assignment.ps1 -Destination "E:\uni\assignments\my-homework-1" -RepositoryUrl "https://github.com/goodguy-not/persian-latex-kit.git"
+4. Open main.tex in TeXstudio; use XeLaTeX.
+5. Main docs: docs/HOMEWORK_TEMPLATE_FA.md
+
+NO .git folder or fonts are inside this patch.
