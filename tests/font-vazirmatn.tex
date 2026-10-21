@@ -1,0 +1,21 @@
+% !TeX program = xelatex
+% Test the shared font setup without importing a homework project.
+\documentclass[12pt,a4paper]{article}
+\usepackage{tex/persian-kit}
+\begin{document}
+\section*{آزمایش فونت وزیرمتن}
+این یک متن آزمایشی فارسی است؛ اعداد متن: ۱۲۳۴۵۶۷۸۹۰ و علامت درصد: ۲۵٪.
+\par
+\Term{عبارت لاتین}{Latin Term} و \EN{FIFO} در متن فارسی.
+\[
+  x_1 = 12.5,\qquad \frac{123}{45}=2.73
+\]
+% Smoke-test RTL tables as well as the font; newer TeX Live releases
+% can otherwise fail at the end of a tabularx-backed HWTable.
+\begin{HWTable}{cY}
+\rowcolor{HWNavy}
+\HWTableHead{ردیف} & \HWTableHead{شرح}\\
+۱ & نمونهٔ جدول فارسی با وزیرمتن\\
+۲ & بررسی راست‌به‌چپ بودن و اعداد فارسی\\
+\end{HWTable}
+\end{document}

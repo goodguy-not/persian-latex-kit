@@ -26,7 +26,7 @@ XeLaTeX → PDF → بازبینی اعداد، علائم، راست‌به‌�
 
 - TeX Live، TeXstudio و Git for Windows نصب باشند.
 - در TeXstudio گزینهٔ `Options → Configure TeXstudio → Build → Default Compiler` روی **XeLaTeX** باشد.
-- فونت **B Nazanin** در Windows Fonts نصب باشد. فونت در ریپو نگهداری نمی‌شود. کتابخانه اگر فونت پیدا نشود به Amiri برمی‌گردد؛ باید آن فونت هم در سیستم موجود باشد.
+- فونت **Vazirmatn (وزیرمتن)** در وزن‌های Regular و Bold در Windows Fonts نصب باشد. فونت در ریپو نگهداری نمی‌شود؛ اگر XeLaTeX آن را نشناسد، کتابخانه با خطای مشخص متوقف می‌شود. فونت را از [انتشار رسمی](https://github.com/rastikerdar/vazirmatn/releases) بگیر.
 - برای کار با ریپوی خصوصی، Git باید دسترسی معتبر GitHub داشته باشد.
 - مسیر پوشه‌ها را ترجیحاً با حروف انگلیسی انتخاب کن؛ مثلاً `E:\uni\assignments`.
 
@@ -104,7 +104,7 @@ xelatex -interaction=nonstopmode -halt-on-error main.tex
 
 چک‌لیست خروجی PDF:
 
-- [ ] B Nazanin واقعاً نمایش داده می‌شود؛ اگر نه، نصب فونت و شناخته شدن آن را بررسی کن.
+- [ ] Vazirmatn واقعاً نمایش داده می‌شود؛ در قسمت Fonts مشخصات PDF را بررسی کن.
 - [ ] پاراگراف‌ها راست‌به‌چپ و متن‌ها راست‌چین هستند.
 - [ ] پرانتز اصطلاح‌های انگلیسی برعکس یا جدا نیفتاده‌اند.
 - [ ] شمارهٔ سؤال، شمارهٔ صفحه و اعداد متن مناسب و خوانا هستند.
@@ -131,7 +131,7 @@ LaTeX جدید اختراع نکن.
 
 قواعد کار:
 ۱) با XeLaTeX و XePersian کار کن؛ متن فارسی راست‌به‌چپ، فونت ترجیحی
-B Nazanin و اعداد فارسی باشد.
+Vazirmatn و اعداد فارسی باشد.
 ۲) همهٔ سؤال‌ها در questions/questionXX.tex قرار گیرند و از main.tex
 با input فراخوانی شوند. اطلاعات تکلیف فقط در config/metadata.tex باشد.
 ۳) از ماکروهای موجود مثل HWQuestion، HWPart، Term، EN، HWTable، HWFigure
@@ -202,7 +202,7 @@ git commit -m "Update shared LaTeX kit"
 |---|---|---|
 | `xelatex not recognized` | TeX Live در PATH نیست | ترمینال جدید باز کن؛ نصب و PATH را بررسی کن. |
 | `persian-kit.sty not found` | Submodule دانلود نشده یا از پوشهٔ اشتباه کامپایل می‌کنی | از ریشهٔ پروژه اجرا کن؛ `git submodule update --init --recursive` را بزن. |
-| `font "B Nazanin" cannot be found` یا فونت تغییر می‌کند | فونت نصب یا شناسایی نشده | فونت را در Windows Fonts نصب و TeXstudio را دوباره باز کن. |
+| `Required font Vazirmatn not found` | فونت نصب یا توسط XeLaTeX شناسایی نشده | فونت وزیرمتن را نصب کن (ترجیحاً برای همهٔ کاربران)، TeXstudio را ببند و دوباره باز کن. |
 | شماره‌ها یا پرانتزها جابه‌جاست | متن لاتین مستقیم در محیط فارسی نوشته شده | از `\EN{}` و `\Term{}{}` استفاده کن، سپس PDF را بررسی کن. |
 | `Destination already exists` | مسیر پروژه از قبل ساخته شده | مسیر جدید انتخاب کن؛ اطلاعات قبلی را بدون بررسی پاک نکن. |
 | `git submodule add failed` | شبکه/دسترسی GitHub یا ریپو | `git ls-remote https://github.com/goodguy-not/persian-latex-kit.git` را تست کن. |

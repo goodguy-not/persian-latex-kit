@@ -5,6 +5,13 @@
 
 # Changelog
 
+## Unreleased — Default font changed to Vazirmatn
+- Add a TeX Live 2026 `array`/`bidi` table-compatibility fallback and cover `HWTable` in the smoke test.
+- Require Vazirmatn for Persian text and for text/math digits (XeLaTeX + XePersian).
+- Remove the silent B Nazanin/Amiri fallback; missing Vazirmatn now triggers a clear package error.
+- Refresh Windows setup, assignment workflow, AI instructions, and a dedicated font smoke test.
+- No font binaries are distributed; existing templates and the new-assignment script use the kit automatically.
+
 ## 1.2.0 — Generic homework master template (2026-10-21)
 - Added automatic question and part heading commands (HWQuestion, HWPart, HWSubpart).
 - Improved assignment title, metadata card, Persian page footer and stable page layout.

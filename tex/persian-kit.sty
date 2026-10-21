@@ -15,15 +15,21 @@
 \RequirePackage{amsmath,amssymb}
 \RequirePackage{xepersian}
 
-% ---- Fonts: preferred B Nazanin; Amiri fallback for machines missing it. ----
-% Font files are NOT distributed in this project.
-\IfFontExistsTF{B Nazanin}{%
-  \settextfont[Scale=1.13]{B Nazanin}%
-  \setdigitfont[Scale=1.13]{B Nazanin}%
+% Compatibility with TeX Live 2026 array/bidi table handling.
+% Without PDF tagging, some bidi releases reference an undefined hook in tabularx.
+% Keep this harmless fallback until the upstream packages provide it.
+\providecommand\UseMathForPositioningText{}
+
+% ---- Fonts: Vazirmatn is required for Persian text and digits. ----
+% Install the Regular and Bold fonts on the machine; do not commit font files.
+% Fail loudly rather than silently changing the appearance of the PDF.
+\IfFontExistsTF{Vazirmatn}{%
+  \settextfont[Scale=1.05]{Vazirmatn}%
+  \settextdigitfont[Scale=1.05]{Vazirmatn}%
+  \setmathdigitfont[Scale=1.05]{Vazirmatn}%
 }{%
-  \settextfont[Scale=1.13]{Amiri}%
-  \setdigitfont[Scale=1.13]{Amiri}%
-  \typeout{HW-TEMPLATE-WARNING: B Nazanin not found; using Amiri.}%
+  \PackageError{persian-kit}{Required font Vazirmatn not found}%
+    {Install Vazirmatn Regular and Bold system-wide, restart the editor, and compile with XeLaTeX.}%
 }
 \IfFontExistsTF{Times New Roman}{%
   \setlatintextfont{Times New Roman}%

@@ -3,7 +3,7 @@
 This repository is a reusable, course-independent LaTeX component library, NOT a place for individual homework answers or student personal data.
 
 1. Read `README.md`, `tex/persian-kit.sty`, `docs/COMPONENTS_FA.md`, and `docs/WORKFLOW_ZERO_TO_PDF_FA.md` before edits.
-2. Use XeLaTeX and XePersian. Prefer B Nazanin if installed; never commit font binaries. Keep Persian RTL and Latin spans isolated with `\EN{}` or `\Term{}{}`.
+2. Use XeLaTeX and XePersian. Require Vazirmatn for Persian text and text/math digits; never commit font binaries or silently fall back to another font. Keep Persian RTL and Latin spans isolated with `\EN{}` or `\Term{}{}`.
 3. Never claim that a macro exists without checking the source. Reuse existing components rather than duplicating styles.
 4. Put reusable components in library source, examples in `examples/snippets/`, documentation in `docs/`, and a change entry in `CHANGELOG.md`.
 5. Keep course names, real student IDs, homework text, and attachments out of the library repository.
