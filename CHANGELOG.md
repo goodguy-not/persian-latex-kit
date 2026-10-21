@@ -6,6 +6,7 @@
 # Changelog
 
 ## Unreleased — Default font changed to Vazirmatn
+- Removed obsolete `APPLY_PATCH_FA.txt` ZIP-update instructions; use the maintained Git workflow docs instead.
 - Add a TeX Live 2026 `array`/`bidi` table-compatibility fallback and cover `HWTable` in the smoke test.
 - Require Vazirmatn for Persian text and for text/math digits (XeLaTeX + XePersian).
 - Remove the silent B Nazanin/Amiri fallback; missing Vazirmatn now triggers a clear package error.
