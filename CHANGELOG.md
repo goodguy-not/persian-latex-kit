@@ -1,3 +1,8 @@
+## Docs update — 2026-10-21
+- Added a complete Windows / Git / XeLaTeX / AI-assisted assignment workflow in `docs/WORKFLOW_ZERO_TO_PDF_FA.md`.
+- Added root and assignment-scoped `AGENTS.md` guidance for AI tools.
+- No LaTeX API changes (compatible with v1.2.0).
+
 # Changelog
 
 ## 1.2.0 — Generic homework master template (2026-10-21)
