@@ -1,0 +1,19 @@
+% !TeX program = xelatex
+% Compile from the PROJECT ROOT; upgrade the git submodule first.
+\documentclass[12pt,a4paper]{article}
+\usepackage{vendor/persian-latex-kit/tex/persian-kit}
+\usepackage{vendor/persian-latex-kit/tex/persian-lab}
+\input{config/metadata}
+\begin{document}
+\MakeLabTitle
+\input{sections/01-objective}
+\input{sections/02-specification}
+\input{sections/03-design}
+\input{sections/04-tests}
+\ifLabFinal
+  \input{sections/05-results}
+\else
+  \input{sections/05-evaluation-plan}
+\fi
+\input{sections/06-conclusion}
+\end{document}

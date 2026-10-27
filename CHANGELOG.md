@@ -30,3 +30,10 @@
 ## 1.0.0 — Original homework starter (2026-10-18)
 - XePersian theme with preferred B Nazanin and Amiri fallback.
 - Colored tables, note boxes, figures, formulas and heading hierarchy.
+
+## Unreleased — Laboratory report starter (2026-10-27)
+- Add generic two-stage lab-report template with separate predicted and observed sections.
+- Add `persian-lab.sty` with numbered and referenceable `LabFigure` / `LabTable` wrappers, preserving homework APIs.
+- Add Windows creation script, guide, snippet, and smoke test.
+- No actual experiment answers or photographic evidence stored in the public kit.
+- Provide a course-neutral, content-free lab starter with an independent report title.

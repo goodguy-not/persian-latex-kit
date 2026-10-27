@@ -1,0 +1,53 @@
+% Laboratory report extension for persian-kit.sty; no change to homework API.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{persian-lab}[2026/10/27 v0.1 Semantic laboratory report components]
+\@ifpackageloaded{persian-kit}{}{%
+  \PackageError{persian-lab}{Load persian-kit before persian-lab}{%
+    Use \string\usepackage{.../persian-kit} before \string\usepackage{.../persian-lab}.}%
+}
+% These commands do not load any new packages after XePersian.
+\newif\ifLabFinal
+\LabFinalfalse
+\providecommand{\LabExperimentNumber}{شمارهٔ آزمایش}
+\providecommand{\LabExperimentName}{عنوان آزمایش}
+\providecommand{\LabSessionDate}{تاریخ انجام آزمایش}
+\providecommand{\LabReportDate}{تاریخ تهیهٔ گزارش}
+% A dedicated lab title. Do not reuse the homework title (which labels the
+% document as an assignment and causes duplicate title blocks).
+\newcommand{\MakeLabTitle}{%
+  \thispagestyle{plain}%
+  \begin{center}
+    {\small\color{HWMuted}به نام خدا}\par\vspace{8pt}
+    {\LARGE\bfseries\color{HWNavy}\ifLabFinal گزارش نهایی\else پیش‌گزارش\fi}\par\vspace{5pt}
+    {\large\bfseries\color{HWNavy}\LabExperimentName}\par\vspace{5pt}
+    {\normalsize\color{HWTeal}\HWInstitution}
+  \end{center}
+  \vspace{3pt}
+  \begin{tcolorbox}[enhanced,colback=HWLight,colframe=HWLine,
+    boxrule=0.6pt,arc=1.3mm,left=3mm,right=3mm,top=2.4mm,bottom=2.4mm]
+    \textbf{نام درس:} \HWCourse\hfill\textbf{شمارهٔ آزمایش:} \LabExperimentNumber\par
+    \textbf{استاد:} \HWProfessor\hfill\textbf{نیمسال:} \HWTerm\par
+    \textbf{دانشجو:} \HWStudentName\hfill\textbf{شمارهٔ دانشجویی:} \HWStudentID\par
+    \textbf{تاریخ جلسه:} \LabSessionDate\hfill\textbf{تاریخ تهیهٔ گزارش:} \LabReportDate
+  \end{tcolorbox}
+  \vspace{5pt}
+}
+% Standard numbered figure: graphic, caption BELOW, and cross-reference label.
+\NewDocumentCommand{\LabFigure}{O{0.85} m m m}{%
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=#1\linewidth]{#2}
+    \caption{#3}\label{#4}
+  \end{figure}%
+}
+% Standard numbered table: caption ABOVE, then the kit's existing colored table.
+% Syntax: \begin{LabTable}{caption}{tab:label}{colspec} ... \end{LabTable}
+\NewDocumentEnvironment{LabTable}{m m m +b}{%
+  \begin{table}[htbp]
+    \centering
+    \caption{#1}\label{#2}
+    \begin{HWTable}{#3}
+      #4
+    \end{HWTable}
+  \end{table}%
+}{}
