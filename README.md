@@ -78,3 +78,21 @@ git commit -m "Update Persian LaTeX Kit"
 
 ## قالب گزارش آزمایشگاه (افزوده‌شده)
 برای تهیهٔ پیش‌گزارش و گزارش نهایی از `templates/lab-report/`، کتابخانهٔ `tex/persian-lab.sty` و راهنمای [گزارش آزمایشگاه](docs/LAB_REPORT_FA.md) استفاده کنید. اسکریپت `scripts/new-lab-report.ps1` یک پروژهٔ مستقل ایجاد می‌کند.
+
+## قالب تک‌سؤال سیستم‌عامل، افزونهٔ همین کتابخانه
+
+این قابلیت از `tex/persian-os.sty` و `templates/os-single-question/` استفاده
+می‌کند تا ظاهر فرم Word قبلی در XeLaTeX بازسازی شود، بدون دست‌زدن به طراحی
+تکلیف عمومی و گزارش آزمایشگاه. پاسخ هر سؤال در فایل `.tex` خود نوشته و به
+PDF جداگانه تبدیل می‌شود؛ فایل‌های `.md` فقط مستندات مخزن هستند.
+
+بعد از commit و push استایل در مخزن مرکزی، دستور زیر به‌صورت پیش‌فرض **Git
+Submodule** را با remote `origin` همین کتابخانه می‌سازد:
+
+```powershell
+.\scripts\new-os-homework.ps1 -Destination "E:\uni\os\HW2_Q1" -QuestionNumber "۱"
+```
+
+برای ساخت مستقل از اینترنت، گزینهٔ صریح `-Offline` را اضافه کن. به Python 3
+و برای حالت اصلی به Git نیاز است. راهنمای RTL، پرانتز، نشانه‌گذاری و کامپایل:
+[قالب تک‌سؤال](docs/OS_SINGLE_QUESTION_FA.md).

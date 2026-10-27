@@ -1,0 +1,153 @@
+% Single-question Persian OS hand-in design. Visually based on the supplied
+% Word layout; intentionally isolated from persian-kit and persian-lab.
+% No real course, student or homework data are stored in this style.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{persian-os}[2026/10/27 v0.3 Single-question Word-style Persian hand-in]
+\RequirePackage[a4paper,top=21mm,bottom=30mm,left=23.5mm,right=23.5mm,
+  headheight=40pt,headsep=-13pt,footskip=49pt]{geometry}
+\RequirePackage[table]{xcolor}
+\RequirePackage{array,tabularx,longtable,booktabs}
+\RequirePackage{graphicx}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{float}
+\RequirePackage{fancyhdr}
+\RequirePackage{listings}
+\RequirePackage{xepersian} % Always last in the package-loading sequence.
+\providecommand\UseMathForPositioningText{}
+
+% Same typeface as the historical Word hand-in: not the kit's Vazirmatn.
+% Missing fonts are fatal: never silently change the appearance.
+\IfFontExistsTF{Noto Sans Arabic}{%
+  \settextfont{Noto Sans Arabic}%
+  \settextdigitfont{Noto Sans Arabic}%
+  \setmathdigitfont{Noto Sans Arabic}%
+}{%
+  \PackageError{persian-os}{Required font Noto Sans Arabic not found}%
+    {Install the Noto Sans Arabic family to match the original Word layout.}%
+}
+\IfFontExistsTF{DejaVu Sans}{\setlatintextfont{DejaVu Sans}}{}
+
+\definecolor{OSNavy}{HTML}{1C354D}
+\definecolor{OSTeal}{HTML}{17707B}
+\definecolor{OSBody}{HTML}{28313A}
+\definecolor{OSMuted}{HTML}{6F7C89}
+\definecolor{OSLine}{HTML}{D4E0E3}
+\definecolor{OSHeadFill}{HTML}{F0F4F5}
+\definecolor{OSAltFill}{HTML}{F6F8F9}
+\definecolor{OSCodeFill}{HTML}{F4F6F7}
+
+% Course data are provided by the consumer project; defaults are generic.
+\providecommand{\OSFaculty}{نام دانشکده}
+\providecommand{\OSCourse}{نام درس}
+\providecommand{\OSProfessor}{نام استاد}
+\providecommand{\OSTerm}{نیمسال تحصیلی}
+\providecommand{\OSAssignment}{تمرین سری موردنظر}
+\providecommand{\OSQuestionNumber}{[شماره سؤال]}
+\providecommand{\OSStudentOneName}{نام دانشجوی اول}
+\providecommand{\OSStudentOneID}{000000000}
+\providecommand{\OSStudentTwoName}{نام دانشجوی دوم}
+\providecommand{\OSStudentTwoID}{000000000}
+
+% Word normal style: 11.5pt, 1.45 line spacing, 6pt paragraph gap.
+\AtBeginDocument{%
+  \fontsize{11.5pt}{16.675pt}\selectfont
+  \color{OSBody}%
+  \setlength{\parindent}{0pt}%
+  \setlength{\parskip}{6pt}%
+  \OSSetPageStyle
+}
+
+\newcommand{\OSLatin}[1]{\lr{#1}}
+% Only for exceptional ASCII glyphs inside Latin technical material.
+\newcommand{\OSGlyph}[1]{{\latinfont #1}}
+% TeX/XePersian does not auto-mirror glyphs inserted via the fallback Latin font.
+% In an RTL line, the right-edge opening parenthesis must visibly be ")"
+% and the left-edge closing parenthesis must visibly be "(".
+\newcommand{\OSParen}[1]{\OSGlyph{)}#1\OSGlyph{(}}
+\newcommand{\OSDash}{\OSGlyph{—}}
+\newcommand{\OSDateRange}[2]{#1\OSGlyph{–}#2}
+\newcommand{\OSTechnicalTerm}[2]{\textbf{#1} \lr{(#2)}}
+% Likewise: use the visually mirrored glyphs at the two edges of an RTL span.
+\newcommand{\OSBracketed}[1]{\OSGlyph{]}#1\OSGlyph{[}}
+
+% Word's thin horizontal rule above/below the writing area, continuous on all pages.
+\newcommand{\OSSetPageStyle}{%
+  \pagestyle{fancy}%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0.45pt}%
+  \renewcommand{\footrulewidth}{0.45pt}%
+  \renewcommand{\headrule}{\hbox to\headwidth{\color{OSLine}\leaders\hrule height \headrulewidth\hfill}}%
+  \renewcommand{\footrule}{\hbox to\headwidth{\color{OSLine}\leaders\hrule height \footrulewidth\hfill}}%
+  \fancyhead[L]{\fontsize{11pt}{15pt}\selectfont
+    \textcolor{OSNavy}{\OSFaculty}\hspace{5pt}\textcolor{OSMuted}{\lr{|}}\hspace{5pt}%
+    \textcolor{OSMuted}{درس \OSCourse}}%
+  \fancyfoot[C]{\fontsize{11pt}{15pt}\selectfont\color{OSMuted}%
+    \OSAssignment\space \OSCourse\quad\ensuremath{\bullet}\quad صفحه \lr{\thepage}}%
+  \fancypagestyle{plain}{\OSSetPageStyle}%
+}
+
+% A fixed, single-question title, rather than the generic auto-incrementing
+% HWQuestion (which creates an entirely different design).
+\newcommand{\OSMakeQuestionTitle}{%
+  \par\vspace*{-12pt}%
+  {\fontsize{11pt}{22pt}\selectfont\color{OSNavy}%
+    پاسخ سؤال \textcolor{OSTeal}{\OSQuestionNumber}\par}%
+  \vspace{17pt}%
+  {\fontsize{11pt}{16pt}\selectfont
+    \OSAssignment\quad\textcolor{OSMuted}{\ensuremath{\bullet}}\quad
+    \textcolor{OSMuted}{\OSTerm}\quad\textcolor{OSMuted}{\ensuremath{\bullet}}\quad
+    \textcolor{OSMuted}{استاد: \OSProfessor}\par}%
+  \vspace{20pt}%
+  \OSStudentTable
+  \vspace{17pt}%
+}
+
+% Exactly two names/IDs; no colored grid or dark navy header.
+% With XePersian, the first column is visually on the right.
+\newcommand{\OSStudentTable}{%
+  \begingroup\setlength{\parskip}{0pt}%
+  \renewcommand{\arraystretch}{2.28}%
+  \setlength{\tabcolsep}{9pt}%
+  \begin{tabularx}{\dimexpr\linewidth-3pt\relax}{>{\raggedleft\arraybackslash}X >{\centering\arraybackslash}X}
+    \rowcolor{OSHeadFill}نام و نام خانوادگی & شماره دانشجویی\\
+    \OSStudentOneName & \lr{\OSStudentOneID}\\
+    \rowcolor{OSAltFill}\OSStudentTwoName & \lr{\OSStudentTwoID}\\
+  \end{tabularx}\par
+  \endgroup
+}
+
+\newcommand{\OSAnswerHeading}{%
+  \par\vspace{7pt}%
+  {\fontsize{11pt}{19pt}\selectfont\color{OSTeal}پاسخ تشریحی\par}%
+  \vspace{2pt}\noindent\textcolor{OSLine}{\rule{\linewidth}{0.45pt}}\par
+  \vspace{6pt}%
+}
+
+% Persian parentheses and punctuation must stay in RTL text.
+% E.g. \OSPart{آ}[عنوان زیربخش] -> بخش (آ) — عنوان زیربخش
+\NewDocumentCommand{\OSPart}{m o}{%
+  \par\vspace{-2pt}%
+  {\fontsize{11pt}{17pt}\selectfont\color{OSNavy}%
+    بخش \OSParen{#1}\IfValueT{#2}{ \OSDash{} #2}\par}%
+  \vspace{1pt}%
+}
+\newcommand{\OSBodyText}[1]{\par\color{OSBody}#1\par}
+\newcommand{\OSPlaceholder}[1]{%
+  \par{\fontsize{11pt}{32pt}\selectfont\color{OSMuted}#1\par}\vspace{4pt}%
+}
+
+\lstdefinestyle{OSCode}{
+  language=C,basicstyle=\ttfamily\footnotesize,
+  numbers=left,numberstyle=\tiny\color{OSMuted},stepnumber=1,numbersep=8pt,
+  frame=single,framerule=0.35pt,rulecolor=\color{OSLine},
+  backgroundcolor=\color{OSCodeFill},
+  breaklines=true,breakatwhitespace=true,showstringspaces=false,
+  tabsize=4,columns=fullflexible,keepspaces=true,
+  keywordstyle=\bfseries\color{OSNavy},commentstyle=\color{OSMuted}
+}
+\newcommand{\OSFigure}[3][0.85]{%
+  \begin{figure}[htbp]\centering
+  \includegraphics[width=#1\linewidth]{#2}
+  \caption{#3}
+  \end{figure}%
+}

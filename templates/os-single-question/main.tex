@@ -1,0 +1,11 @@
+% !TeX program = xelatex
+% Build from the project root with XeLaTeX (twice for references).
+\documentclass[12pt,a4paper]{article}
+\usepackage{vendor/persian-latex-kit/tex/persian-os}
+\input{config/metadata}
+\begin{document}
+\OSMakeQuestionTitle
+\OSAnswerHeading
+% Exactly one question per output PDF. Create a NEW project for another question.
+\input{questions/question01}
+\end{document}

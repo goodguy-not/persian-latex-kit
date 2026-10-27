@@ -1,0 +1,32 @@
+% !TeX program = xelatex
+% Regression for Persian punctuation, LTR technical terms and a C listing.
+\documentclass[12pt,a4paper]{article}
+\usepackage{tex/persian-os}
+\renewcommand{\OSFaculty}{دانشکده نمونه}
+\renewcommand{\OSCourse}{درس آزمایشی}
+\renewcommand{\OSAssignment}{تمرین نمونه}
+\renewcommand{\OSTerm}{نیمسال اول \OSDateRange{۱۴۰۵}{۱۴۰۶}}
+\renewcommand{\OSQuestionNumber}{۲}
+\begin{document}
+\OSMakeQuestionTitle
+\OSAnswerHeading
+\OSPart{آ}[نشانه‌گذاری و اصطلاحات]
+«پردازه» آماده است، اما فرایند دیگری در حال اجراست؛ آیا \OSLatin{fork()} فراخوانی شده است؟
+
+\OSTechnicalTerm{فراخوانی سیستمی}{waitpid()} در این مسئله استفاده می‌شود.
+
+این عبارت \OSParen{آزمون فارسی} است؛ همچنین \OSBracketed{نوشتهٔ فارسی} به کار می‌رود.
+
+در یک جملهٔ بلند، \OSBracketed{یک عبارت فارسی طولانی در چند سطر که با نقطه، ویرگول، علامت سؤال؟ و کلمهٔ انگلیسی \OSLatin{fork()} ترکیب می‌شود و باید همچنان کروشه‌های ابتدا و انتهای آن به سمت داخل جمله قرار بگیرند} را نیز می‌آزماییم.
+\OSPart{ب}[نمونهٔ کد]
+نمونهٔ برنامهٔ زبان سی به‌صورت چپ‌به‌راست نمایش داده می‌شود:
+\begin{latin}
+\begin{lstlisting}[style=OSCode]
+#include <stdio.h>
+int main(void) {
+    printf("Hello, OS!\\n");
+    return 0;
+}
+\end{lstlisting}
+\end{latin}
+\end{document}

@@ -1,0 +1,21 @@
+% !TeX program = xelatex
+% Visual and content smoke test: no course-specific personal data.
+\documentclass[12pt,a4paper]{article}
+\usepackage{tex/persian-os}
+\renewcommand{\OSFaculty}{دانشکده مهندسی رایانه}
+\renewcommand{\OSCourse}{درس نمونه}
+\renewcommand{\OSProfessor}{استاد نمونه}
+\renewcommand{\OSTerm}{نیمسال اول \OSDateRange{۱۴۰۵}{۱۴۰۶}}
+\renewcommand{\OSAssignment}{تمرین سری دوم}
+\renewcommand{\OSQuestionNumber}{۱}
+\renewcommand{\OSStudentOneName}{دانشجوی اول}
+\renewcommand{\OSStudentOneID}{000000001}
+\renewcommand{\OSStudentTwoName}{دانشجوی دوم}
+\renewcommand{\OSStudentTwoID}{000000002}
+\begin{document}
+\OSMakeQuestionTitle
+\OSAnswerHeading
+\OSPart{آ}[\OSBracketed{عنوان زیربخش، در صورت وجود}]
+\OSPlaceholder{\OSBracketed{پاسخ تأییدشده اینجا نوشته می‌شود. برای سؤال‌های چندبخشی، هر بخش با عنوان جداگانه و به ترتیب درج خواهد شد. جدول، کد، فرمول و شکل نیز مستقیماً در همین فایل اضافه می‌شوند.}}
+\OSPlaceholder{متن‌های داخل کروشه فقط جای‌نگهدار هستند و هنگام تکمیل پاسخ حذف می‌شوند.}
+\end{document}

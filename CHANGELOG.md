@@ -1,3 +1,8 @@
+## OS single-question RTL punctuation fix — 2026-10-27
+- Mirror the Latin fallback font punctuation at the two edges of Persian parentheses and square brackets; direct `( ) [ ]` are not provided by the Noto Sans Arabic font in this setup.
+- Extend the XeLaTeX RTL regression with multiline Persian bracketed text and embedded Latin `fork()`.
+- Keep the original `persian-kit` and `persian-lab` typography unchanged.
+
 ## Docs update — 2026-10-21
 - Added a complete Windows / Git / XeLaTeX / AI-assisted assignment workflow in `docs/WORKFLOW_ZERO_TO_PDF_FA.md`.
 - Added root and assignment-scoped `AGENTS.md` guidance for AI tools.
@@ -37,3 +42,10 @@
 - Add Windows creation script, guide, snippet, and smoke test.
 - No actual experiment answers or photographic evidence stored in the public kit.
 - Provide a course-neutral, content-free lab starter with an independent report title.
+
+## Unreleased — Word-compatible OS single-question template (2026-10-27)
+- Add isolated `tex/persian-os.sty` with Noto Sans Arabic and Word-style OS header, footer, two-student table and section design.
+- Add `templates/os-single-question` as a one-question/one-PDF project, independent of the generic multi-question assignment template.
+- Add `scripts/new-os-homework.py` and PowerShell entry point with Git submodule by default and explicit `--offline` snapshot mode.
+- Add visual layout and RTL/punctuation smoke tests, Git project-generator tests, and a Persian setup/delivery guide. No actual student names or answers in the shared kit.
+- Existing `persian-kit.sty`, `persian-lab.sty` and their creation scripts remain unchanged.
