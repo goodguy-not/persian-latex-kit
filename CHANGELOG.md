@@ -1,3 +1,10 @@
+## OS single-question font consistency fix — 2026-10-27
+- Restore Vazirmatn (Scale=1.05) as the default Persian, text-digit and math-digit font, exactly like `persian-kit.sty`.
+- Keep font choice deterministic; no Noto Sans Arabic fallback or font binaries in the repository.
+- Support explicitly supplied local Regular/Bold TTF files from each project's `fonts/` directory.
+- Load the vendored style with `\input` to avoid the package-name mismatch warning.
+- Keep the existing two-student layout and RTL punctuation commands intact.
+
 ## OS single-question RTL punctuation fix — 2026-10-27
 - Mirror the Latin fallback font punctuation at the two edges of Persian parentheses and square brackets; direct `( ) [ ]` are not provided by the Noto Sans Arabic font in this setup.
 - Extend the XeLaTeX RTL regression with multiline Persian bracketed text and embedded Latin `fork()`.

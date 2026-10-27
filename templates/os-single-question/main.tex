@@ -1,7 +1,11 @@
 % !TeX program = xelatex
 % Build from the project root with XeLaTeX (twice for references).
 \documentclass[12pt,a4paper]{article}
-\usepackage{vendor/persian-latex-kit/tex/persian-os}
+% Optional portable font setup: store TTF files in fonts/ (see README).
+% \newcommand{\OSVazirmatnPath}{fonts}
+% Load from the pinned shared submodule. \input avoids the package-name
+% mismatch warning caused by \usepackage{vendor/.../persian-os}.
+\input{vendor/persian-latex-kit/tex/persian-os.sty}
 \input{config/metadata}
 \begin{document}
 \OSMakeQuestionTitle

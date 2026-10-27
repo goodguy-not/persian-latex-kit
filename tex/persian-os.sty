@@ -2,7 +2,7 @@
 % Word layout; intentionally isolated from persian-kit and persian-lab.
 % No real course, student or homework data are stored in this style.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{persian-os}[2026/10/27 v0.3 Single-question Word-style Persian hand-in]
+\ProvidesPackage{persian-os}[2026/10/27 v0.4 Vazirmatn single-question Persian hand-in]
 \RequirePackage[a4paper,top=21mm,bottom=30mm,left=23.5mm,right=23.5mm,
   headheight=40pt,headsep=-13pt,footskip=49pt]{geometry}
 \RequirePackage[table]{xcolor}
@@ -15,17 +15,44 @@
 \RequirePackage{xepersian} % Always last in the package-loading sequence.
 \providecommand\UseMathForPositioningText{}
 
-% Same typeface as the historical Word hand-in: not the kit's Vazirmatn.
-% Missing fonts are fatal: never silently change the appearance.
-\IfFontExistsTF{Noto Sans Arabic}{%
-  \settextfont{Noto Sans Arabic}%
-  \settextdigitfont{Noto Sans Arabic}%
-  \setmathdigitfont{Noto Sans Arabic}%
+% Keep the very same Persian typeface and scale as tex/persian-kit.sty.
+% No hidden font substitution: every homework should render consistently.
+% Optional portable mode (without system installation): put
+%   Vazirmatn-Regular.ttf + Vazirmatn-Bold.ttf in your project's fonts/
+% and define \OSVazirmatnPath as {fonts} BEFORE loading persian-os.
+% The directory is relative to main.tex's working directory.
+\ifdefined\OSVazirmatnPath
+  % The project explicitly asked for local fonts (without installing them).
+  \IfFileExists{\OSVazirmatnPath/Vazirmatn-Regular.ttf}{%
+    \IfFileExists{\OSVazirmatnPath/Vazirmatn-Bold.ttf}{%
+      \settextfont[Path=\OSVazirmatnPath/,Extension=.ttf,
+        UprightFont=Vazirmatn-Regular,BoldFont=Vazirmatn-Bold,Scale=1.05]{Vazirmatn}%
+      \settextdigitfont[Path=\OSVazirmatnPath/,Extension=.ttf,
+        UprightFont=Vazirmatn-Regular,BoldFont=Vazirmatn-Bold,Scale=1.05]{Vazirmatn}%
+      \setmathdigitfont[Path=\OSVazirmatnPath/,Extension=.ttf,
+        UprightFont=Vazirmatn-Regular,BoldFont=Vazirmatn-Bold,Scale=1.05]{Vazirmatn}%
+    }{\PackageError{persian-os}{Missing Vazirmatn-Bold.ttf in OSVazirmatnPath}%
+        {Place both Vazirmatn-Regular.ttf and Vazirmatn-Bold.ttf in the specified directory.}}%
+  }{\PackageError{persian-os}{Missing Vazirmatn-Regular.ttf in OSVazirmatnPath}%
+      {Place both Vazirmatn-Regular.ttf and Vazirmatn-Bold.ttf in the specified directory.}}%
+\else
+  % Same default behavior and font scale as the shared persian-kit.sty.
+  \IfFontExistsTF{Vazirmatn}{%
+    \settextfont[Scale=1.05]{Vazirmatn}%
+    \settextdigitfont[Scale=1.05]{Vazirmatn}%
+    \setmathdigitfont[Scale=1.05]{Vazirmatn}%
+  }{%
+    \PackageError{persian-os}{Required font Vazirmatn not found}%
+      {Install Vazirmatn Regular and Bold, restart TeXstudio and use XeLaTeX;%
+       or put both TTF files in fonts/ and set OSVazirmatnPath=fonts before loading.}%
+  }%
+\fi
+% Use the same Latin-font selection as the existing persian-kit template.
+\IfFontExistsTF{Times New Roman}{%
+  \setlatintextfont{Times New Roman}%
 }{%
-  \PackageError{persian-os}{Required font Noto Sans Arabic not found}%
-    {Install the Noto Sans Arabic family to match the original Word layout.}%
+  \setlatintextfont{Liberation Serif}%
 }
-\IfFontExistsTF{DejaVu Sans}{\setlatintextfont{DejaVu Sans}}{}
 
 \definecolor{OSNavy}{HTML}{1C354D}
 \definecolor{OSTeal}{HTML}{17707B}

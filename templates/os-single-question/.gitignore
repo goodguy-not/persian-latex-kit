@@ -8,3 +8,6 @@
 *.toc
 *.pdf
 build/
+
+# Optional locally-supplied font files (do not commit).
+fonts/
