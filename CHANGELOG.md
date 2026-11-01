@@ -1,3 +1,7 @@
+## Documentation: Latin text and English equivalents — 2026-11-01
+- Clarify `\lr{}` for ordinary Latin without parentheses, `\EN{}` for a parenthesized English equivalent, and `\Term{}{}` for a Persian term with its parenthesized English equivalent.
+- Update AI instructions, component examples and the Windows workflow guide. No changes to macros, fonts or public LaTeX API.
+
 ## OS single-question font consistency fix — 2026-10-27
 - Restore Vazirmatn (Scale=1.05) as the default Persian, text-digit and math-digit font, exactly like `persian-kit.sty`.
 - Keep font choice deterministic; no Noto Sans Arabic fallback or font binaries in the repository.
