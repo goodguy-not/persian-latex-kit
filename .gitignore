@@ -44,3 +44,5 @@ Thumbs.db
 *.ttf
 *.otf
 .env
+__pycache__/
+*.pyc

@@ -1,9 +1,9 @@
 # AI editing guide — homework project
 
-This is an individual assignment consuming the reusable `vendor/persian-latex-kit` Git submodule.
+This is an individual assignment with a frozen copy of the required style in `vendor/persian-latex-kit` (or an explicitly selected Git submodule).
 
 - Read `main.tex`, `config/metadata.tex`, relevant `questions/*.tex`, and `vendor/persian-latex-kit/tex/persian-kit.sty` before editing. Read `vendor/persian-latex-kit/docs/COMPONENTS_FA.md` if available.
-- Use **XeLaTeX**. Text is Persian RTL. Use `\lr{TCP}` for ordinary Latin text without parentheses; use `\EN{Transmission Control Protocol}` only for an English equivalent in parentheses; use `\Term{کنترل ازدحام}{Congestion Control}` for a Persian term with its English equivalent. `\EN{}` inserts parentheses automatically. Use the shared kit's Vazirmatn font selection; do not override fonts in assignment files.
+- Use **XeLaTeX**. Text is Persian RTL. Use `\lr{TCP}` for ordinary Latin text without parentheses; use `\EN{Transmission Control Protocol}` only for an English equivalent in parentheses; use `\Term{کنترل ازدحام}{Congestion Control}` for a Persian term with its English equivalent. `\EN{}` inserts parentheses automatically. Default Persian font is Vazirmatn; optional installed-font choices belong only in `config/fonts.tex`, never in question files.
 - Edit assignment metadata only in `config/metadata.tex`. Write each question in a separate `questions/questionNN.tex`, included via `main.tex`.
 - Use shared `\HWQuestion`, `\HWPart`, `\HWSubpart`, `HWTable`, `HWTip`, `HWWarning`, `\HWFigure`, and standard math environments where appropriate.
 - Do not redefine global colors, heading formats, or fonts in a question. Never edit `vendor/persian-latex-kit` directly; propose generic components as changes to the library repository.

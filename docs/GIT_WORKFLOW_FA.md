@@ -1,57 +1,45 @@
-# راه‌اندازی مخزن روی GitHub (Windows)
+# استفادهٔ اختیاری از Git
 
-## ساخت اولین مخزن
+ساخت پروژهٔ معمولی به Git، GitHub یا اینترنت نیاز ندارد. مولد به‌صورت
+پیش‌فرض یک نسخهٔ مستقل از قالب و استایل‌های لازم می‌سازد. اطلاعات شخصی و
+پاسخ‌های تمرین را در مخزن عمومی کتابخانه قرار ندهید.
 
-۱. در GitHub یک **Private** repository با نام `persian-latex-kit` بساز. هنگام ساخت گزینهٔ README / .gitignore / License را انتخاب نکن؛ این فایل‌ها در بسته موجودند.
-۲. این پوشه را در مسیر دلخواه (مثلاً `E:\Projects\persian-latex-kit`) از حالت فشرده خارج کن.
-۳. در همان پوشه PowerShell یا Git Bash باز کن و اجرا کن:
-
-```powershell
-git init -b main
-git add .
-git commit -m "Initial reusable Persian LaTeX Kit"
-git remote add origin https://github.com/YOUR_USERNAME/persian-latex-kit.git
-git push -u origin main
+اگر عمداً می‌خواهید پروژهٔ **جدید** با submodule ساخته شود، از ریشهٔ
+کتابخانه اجرا کنید:
+```sh
+python3 scripts/new-project.py --template assignment --destination ./my-project --git --repository-url https://github.com/goodguy-not/persian-latex-kit.git
 ```
 
-اگر `git` شناخته نشد، Git for Windows را از https://git-scm.com/download/win نصب کن و ترمینال را دوباره باز کن. اگر Git برای نام و ایمیل سؤال پرسید، از اطلاعات گیت خودت استفاده کن:
+در PowerShell، `-Git -RepositoryUrl URL` را به wrapper قالب بدهید. برای
+سازگاری با فراخوانی قدیمی، `-RepositoryUrl` به‌تنهایی هم حالت Git را
+انتخاب می‌کند. این حالت `git init` و `git submodule add` اجرا می‌کند،
+به Git و دسترسی به مخزن نیاز دارد، و نسخهٔ مشخصی از کتابخانه را ثبت می‌کند.
 
-```powershell
-git config --global user.name "YOUR_NAME"
-git config --global user.email "YOUR_EMAIL"
+برای گرفتن پروژهٔ Gitدار روی دستگاه دیگر:
+```sh
+git clone --recurse-submodules URL
 ```
 
-برای HTTPS ممکن است Git Credential Manager مرورگر را برای ورود به GitHub باز کند؛ رمز عبور GitHub را در خط فرمان به‌جای توکن وارد نکن.
+برای به‌روزرسانی **دستی** کتابخانه در پروژهٔ خود، ابتدا وضعیت Git و
+سازگاری استایل را بررسی کنید، سپس submodule را به نسخهٔ موردنظر ببرید،
+`main.tex` را دوباره کامپایل و PDF را بازبینی کنید و pointer را commit
+کنید. هیچ پروژه‌ای خودکار به‌روز نمی‌شود. پروژهٔ مستقل را نیز می‌توانید
+بعداً به‌صورت یک مخزن معمولی ثبت کنید؛ برای کامپایل نیازی به این کار نیست.
 
-## آپدیت کتابخانه
+نمونهٔ به‌روزرسانی دستی در ریشهٔ یک پروژهٔ Gitدار (اگر شاخهٔ مخزن شما
+`main` است):
 
-هر بار که قطعه‌ای طراحی یا اصلاح شد:
-
-```powershell
+```sh
 git status
-git add .
-git commit -m "Add reusable component: ..."
-git push
+git -C vendor/persian-latex-kit fetch origin
+git -C vendor/persian-latex-kit checkout main
+git -C vendor/persian-latex-kit pull --ff-only origin main
+git add vendor/persian-latex-kit
+git commit -m "Update shared Persian LaTeX Kit"
 ```
 
-برای برگشت به نسخه‌های قبلی:
+قبل از commit، تفاوت PDF جدید را بررسی کنید. این فرمان‌ها برای پروژهٔ
+مستقل لازم نیستند و روی آن اجرا نمی‌شوند.
 
-```powershell
-git log --oneline
-```
-
-## استفادهٔ مجدد در هر پروژه
-
-۱. یک پوشهٔ مستقل برای تمرین یک درس بساز.
-۲. فایل‌های `templates/assignment` را در آن کپی کن.
-۳. داخل همان پوشه پروژه:
-
-```powershell
-git init
-git submodule add https://github.com/YOUR_USERNAME/persian-latex-kit.git vendor/persian-latex-kit
-```
-
-۴. در `main.tex` می‌توانی با `\usepackage{vendor/persian-latex-kit/tex/persian-kit}` از کتابخانه استفاده کنی.
-۵. بعداً فقط وقتی نسخه جدید را می‌خواهی، Submodule را آپدیت کن و در پروژهٔ خودت commit بزن. این کار سازگاری تمرین‌های قدیمی را حفظ می‌کند.
-
-**نکتهٔ حریم خصوصی:** قبل از انتشار عمومی، مطمئن شو نام، شمارهٔ دانشجویی و محتوای تمرین واقعی داخل ریپوی قالب‌ها نیست.
+این مخزن کتابخانه از قبل Git دارد. راه‌اندازی دوبارهٔ آن با `git init`
+یا تغییر visibility مخزن جزو استفادهٔ معمول از قالب نیست.

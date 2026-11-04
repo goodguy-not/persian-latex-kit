@@ -1,42 +1,44 @@
-# روش ثابت تهیهٔ هر تمرین
+# قالب تکلیف چندسؤالی
 
-## یک‌بار برای همیشه
+`templates/assignment/` یک پروژهٔ مستقل و بی‌اطلاعات شخصی می‌سازد.
+استایل اصلی `tex/persian-kit.sty` است؛ آن را در فایل سؤال کپی یا بازتعریف
+نکنید.
 
-قالب/کامپوننت‌های اصلی در `tex/persian-kit.sty` ذخیره می‌شوند. فونت اصلی `Vazirmatn` است و در نبود آن کامپایل با خطای واضح متوقف می‌شود؛ جایگزینی خودکار نداریم. خروجی با **XeLaTeX** ساخته می‌شود. هیچ فونت تجاری در GitHub ذخیره نشود.
+## ساخت پروژه
 
-## برای هر تکلیف جدید
-
-از پوشهٔ محلیِ ریپوی کتابخانه، در PowerShell:
-
+Windows:
 ```powershell
-.\scripts\new-assignment.ps1 -Destination "E:\uni\assignments\example-course-hw1" -RepositoryUrl "https://github.com/goodguy-not/persian-latex-kit.git"
+.\scripts\new-assignment.ps1 -Destination "C:\Documents\assignment-1"
+```
+Ubuntu/Linux:
+```sh
+python3 scripts/new-project.py --template assignment --destination "$HOME/Documents/assignment-1"
 ```
 
-در پروژه جدید `config/metadata.tex` و `questions/question01.tex` را پر کن. سؤال‌های جدید را به صورت فایل جدا بساز و به `main.tex` اضافه کن. هر بار `main.tex` را با XeLaTeX بساز. در پروژه اولیه فقط پاسخ‌های نمونه را پاک کن.
+حالت پیش‌فرض بدون Git و اینترنت است. فایل‌های استایل موردنیاز در
+`vendor/persian-latex-kit/tex/` کپی می‌شوند و خودکار تغییر نمی‌کنند.
+برای حالت اختیاری submodule به [راهنمای Git](GIT_WORKFLOW_FA.md) مراجعه کنید.
 
-**نکته:** این دستور به آخرین نسخه‌ای از کتابخانه دسترسی دارد که در GitHub `push` شده؛ بنابراین تغییرات جدید را اول در ریپوی کتابخانه ثبت و ارسال کن.
+## ویرایش
 
-## تغییر یک مؤلفه برای همیشه
+`config/metadata.tex` مشخصات سند، `config/fonts.tex` فونت‌های اختیاری،
+و `questions/question01.tex` متن سؤال اول را نگه می‌دارند. برای سؤال دوم،
+فایل `questions/question02.example.tex` را به `question02.tex` تبدیل و
+خط `\input{questions/question02}` را در `main.tex` فعال کنید.
 
-۱. فایل `tex/persian-kit.sty` در **ریپوی کتابخانه** را تغییر بده (نه فایل نسخهٔ submodule در تکلیف). ۲. نمونه‌ای در `examples` و شرح در `docs` اضافه کن. ۳. `git add .`، `git commit` و `git push` کن. ۴. برای تمرین‌های جدید نسخه نو استفاده می‌شود؛ برای قدیمی‌ها به دلخواه به‌روزرسانی کن:
+`\HWQuestion`، `\HWPart`، `\HWSubpart`، `HWTable`، `HWTip`،
+`HWWarning`، `\HWFigure` و ابزارهای متن دوزبانه در
+[فهرست قطعات](COMPONENTS_FA.md) توضیح داده شده‌اند. `\HWFigure` کپشن
+نمایشی دارد؛ برای شکل شماره‌دار و قابل ارجاع از API گزارش آزمایشگاه استفاده
+می‌شود.
 
-```powershell
-git -C vendor/persian-latex-kit pull --ff-only origin main
-git add vendor/persian-latex-kit
-git commit -m "Update shared LaTeX styles"
+## کامپایل
+
+از ریشهٔ پروژه، `main.tex` را در TeXstudio با XeLaTeX اجرا کنید؛ یا:
+```sh
+xelatex -interaction=nonstopmode -halt-on-error main.tex
+latexmk -xelatex -outdir=build main.tex
 ```
-
-## قطعات فعلی
-
-- `\HWActivateAssignmentLayout`: فعال‌سازی صفحه‌بندی یکدست و شماره صفحهٔ فارسی در پابرگ
-- `\MakeHomeworkTitle`: عنوان و مشخصات
-- `\HWQuestion` / `\HWQuestion[عنوان]`: شروع سؤال با شماره‌گذاری خودکار
-- `\HWPart{الف}` / `\HWPart{الف}[عنوان]`: شروع زیربخش
-- `\HWSubpart{عنوان}`: زیرعنوان ریزتر
-- `\Term{موجودیت}{Entity}`: نمایش معادل لاتین با جهت درست
-- `HWTable`: جدول نواری و سربرگ رنگی
-- `HWTip`, `HWWarning`: کادرهای قابل استفاده
-- `\HWFigure[0.7]{assets/img.png}{عنوان شکل}`: افزودن تصویر
-- محیط‌های استاندارد `\[...\]` و `equation`: فرمول ریاضی
-
-کدبلاک syntax-highlighted یا جدول چندصفحه‌ای هنوز به این کتابخانه اضافه نشده؛ آن‌ها را هنگام نیاز، با نمونهٔ آزمایشی، اضافه می‌کنیم.
+فرمان دوم یک گزینهٔ مستقل است، نه مرحلهٔ لازم بعد از فرمان اول. XeLaTeX،
+XePersian و فونت نصب‌شده لازم هستند. PDF را از نظر RTL، فونت، جدول و
+سرریز بازبینی کنید.

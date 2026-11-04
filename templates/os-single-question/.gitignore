@@ -6,8 +6,10 @@
 *.fdb_latexmk
 *.synctex.gz
 *.toc
-*.pdf
+/main.pdf
 build/
+*.ttf
+*.otf
 
 # Optional locally-supplied font files (do not commit).
 fonts/
