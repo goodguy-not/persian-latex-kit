@@ -12,11 +12,11 @@ SCRIPT = ROOT / 'scripts' / 'new-os-homework.py'
 
 
 class OSProjectGenerator(unittest.TestCase):
-    def test_explicit_offline_single_question_metadata(self):
+    def test_standalone_single_question_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             dest = pathlib.Path(tmp) / 'q2'
             cmd = [sys.executable, str(SCRIPT), '--destination', str(dest),
-                   '--question-number', '۲', '--assignment-number', '۳', '--offline']
+                   '--question-number', '۲', '--assignment-number', '۳']
             p = subprocess.run(cmd, text=True, capture_output=True)
             self.assertEqual(p.returncode, 0, p.stderr)
             self.assertTrue((dest / 'vendor/persian-latex-kit/tex/persian-os.sty').is_file())
@@ -27,7 +27,7 @@ class OSProjectGenerator(unittest.TestCase):
             meta = (dest / 'config/metadata.tex').read_text(encoding='utf-8')
             self.assertIn(r'\OSQuestionNumber}{۲}', meta)
             self.assertIn('تمرین سری سوم', meta)
-            self.assertTrue((dest / '.git').exists())
+            self.assertFalse((dest / '.git').exists())
             self.assertFalse((dest / '.gitmodules').exists())
 
     def test_local_git_submodule_creation(self):

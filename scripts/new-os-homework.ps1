@@ -1,18 +1,19 @@
-# Default: Git submodule from the library's origin remote (central updates).
-# Example: .\scripts\new-os-homework.ps1 -Destination "E:\uni\os\HW2_Q1" -QuestionNumber "۱" -AssignmentNumber "۲"
-# Explicit offline option: add -Offline (a frozen style snapshot).
+# Standalone snapshot by default; -Git selects the previous submodule mode.
 param(
   [Parameter(Mandatory=$true)][string]$Destination,
   [string]$QuestionNumber = '۱',
-  [string]$AssignmentNumber = '۲',
+  [string]$AssignmentNumber,
   [string]$RepositoryUrl,
+  [switch]$Git,
   [switch]$Offline,
   [string]$KitPath
 )
 $ErrorActionPreference = 'Stop'
 $script = Join-Path $PSScriptRoot 'new-os-homework.py'
-$arguments = @($script, '--destination', $Destination, '--question-number', $QuestionNumber, '--assignment-number', $AssignmentNumber)
+$arguments = @($script, '--destination', $Destination, '--question-number', $QuestionNumber)
+if ($AssignmentNumber) { $arguments += @('--assignment-number', $AssignmentNumber) }
 if ($RepositoryUrl) { $arguments += @('--repository-url', $RepositoryUrl) }
+if ($Git) { $arguments += '--git' }
 if ($Offline) { $arguments += '--offline' }
 if ($KitPath) { $arguments += @('--kit-path', $KitPath) }
 if (Get-Command py -ErrorAction SilentlyContinue) {

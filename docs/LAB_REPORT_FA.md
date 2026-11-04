@@ -1,47 +1,41 @@
-# گزارش آزمایشگاه: از پیش‌گزارش تا گزارش نهایی
+# قالب گزارش آزمایشگاه
 
-این قالب برای گزارش‌های آزمایشگاهی عمومی است؛ هیچ پاسخ آزمایش، نام واقعی یا فایل عکس در کتابخانه نگهداری نمی‌شود.
+این قالب از `persian-kit.sty` و افزونهٔ `persian-lab.sty` استفاده می‌کند.
+اطلاعات آزمایش و شواهد واقعی در پروژهٔ ساخته‌شده نگه داشته می‌شوند.
 
-## ساختار
+## ساخت
 
-- `templates/lab-report/main.tex`: فایل اصلی.
-- `config/metadata.tex`: مشخصات آزمایش و گزینهٔ `\LabFinalfalse / \LabFinaltrue`.
-- `sections/01..04`: هدف، مشخصات، طراحی، نمونه‌های ورودی/خروجی.
-- `sections/05-evaluation-plan.tex`: فقط برای پیش‌گزارش؛ برنامهٔ اجرا و معیار ارزیابی.
-- `sections/05-results.tex`: فقط برای گزارش نهایی؛ تصویر/اندازه‌گیری واقعی و تحلیل.
-- `sections/06-conclusion.tex`: نتیجه‌گیری متناسب با مرحله.
-
-## دستور ساخت در ویندوز
-
+Windows:
 ```powershell
-.\scripts\new-lab-report.ps1 -Destination "E:\uni\lab\exp02" -RepositoryUrl "https://github.com/YOUR_USERNAME/persian-latex-kit.git"
+.\scripts\new-lab-report.ps1 -Destination "C:\Documents\lab-1"
+```
+Ubuntu/Linux:
+```sh
+python3 scripts/new-project.py --template lab-report --destination "$HOME/Documents/lab-1"
 ```
 
-روی سیستم مقصد فونت Vazirmatn را نصب کنید، پروژهٔ جدید را باز کنید و `main.tex` را دو بار با XeLaTeX بسازید.
-برای حفظ نسخهٔ اولیه پیش‌گزارش قبل از اضافه‌کردن نتایج، تغییرات پروژه را commit کنید یا PDF را بیرون پوشهٔ build نگه دارید.
+این پروژه به‌صورت پیش‌فرض مستقل است و استایل‌های لازم را در `vendor/`
+دارد. Git اختیاری است؛ [راهنمای Git](GIT_WORKFLOW_FA.md) را ببینید.
 
-## کپشن‌های شماره‌دار و ارجاعات
+## ساختار و وضعیت
 
-```latex
-\LabFigure[0.75]{assets/schematic.png}{نمودار پیاده‌سازی‌شده.}{fig:design}
-طبق شکل \ref{fig:design}، ...
+- `config/metadata.tex`: مشخصات و `\LabFinalfalse` / `\LabFinaltrue`.
+- `config/fonts.tex`: انتخاب اختیاری فونت پیش از بارگذاری استایل.
+- `sections/01..04`: هدف، مشخصات، طراحی و آزمون‌ها.
+- `sections/05-evaluation-plan.tex`: برنامهٔ ارزیابی برای پیش‌گزارش.
+- `sections/05-results.tex`: نتایج واقعی برای گزارش نهایی.
+- `sections/06-conclusion.tex`: نتیجه‌گیری متناسب با وضعیت.
+- `assets/`: شکل‌ها و داده‌های همان آزمایش.
 
-\begin{LabTable}{جدول آزمون ورودی‌ها}{tab:truth}{cCY}
-\rowcolor{HWNavy}
-\HWTableHead{حالت} & \HWTableHead{ورودی} & \HWTableHead{خروجی}\\
-۱ & \lr{0101} & حالت ثبت‌شده.\\
-\end{LabTable}
-طبق جدول \ref{tab:truth}، ...
-```
+قبل از نتیجهٔ واقعی `\LabFinalfalse` بماند؛ پس از ثبت شواهد و تحلیل،
+`\LabFinaltrue` را انتخاب کنید. عکس یا اندازه‌گیری ساختگی را نتیجهٔ واقعی
+معرفی نکنید.
 
-عنوان و شمارهٔ شکل **زیر** شکل و عنوان و شمارهٔ جدول **بالای** جدول قرار می‌گیرند؛
-متن عادی به‌صورت پیش‌فرض در LaTeX تراز دوطرفه (justified) است، ولی متن ستون نوع `Y` عمداً راست‌چین می‌ماند.
-اصطلاحات لاتین را با `\lr{...}` یا ابزارهای `\EN{...}` / `\Term{}{}` وارد کنید.
-قبل از نهایی‌کردن، شمارهٔ صفحه، نیم‌فاصله، نشانهٔ پایان جمله و ارجاعات عددی بررسی شوند.
+`\LabFigure[0.75]{assets/schematic.png}{عنوان}{fig:design}` شکل شماره‌دار
+و `LabTable` جدول شماره‌دار با `\label` و `\ref` فراهم می‌کنند.
+نمونهٔ کامل در `examples/snippets/lab-figure-table.tex` است.
 
-**حفاظت از صداقت علمی:** جدول پیش‌بینی‌ها و شماتیک پیشنهادی جایگزین نتایج شبیه‌سازی یا عکس واقعی نیستند.
-
-## ساختار بی‌طرف نسبت به درس
-
-قالب عمومی است و نام هیچ درس، آزمایش یا پاسخ واقعی در آن ثابت نشده است.
-متن‌های `TODO` فقط کامنت هستند و در PDF چاپ نمی‌شوند. عنوان مستقل گزارش از قالب تمرین جداست.
+`main.tex` را از ریشهٔ پروژه با XeLaTeX در TeXstudio یا با
+`latexmk -xelatex -outdir=build main.tex` بسازید. فونت پیش‌فرض Vazirmatn
+است؛ برای تغییر آن [راهنمای قطعات](COMPONENTS_FA.md) را ببینید. PDF و
+ارجاع‌ها را بازبینی کنید.

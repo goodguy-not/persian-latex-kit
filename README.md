@@ -1,98 +1,110 @@
-# Persian LaTeX Kit | کتابخانهٔ شخصی قالب‌های لاتک
+# Persian LaTeX Kit | کتابخانهٔ قالب‌های لاتک فارسی
 
-> **شروع سریع و کار با هوش مصنوعی:** راهنمای کامل [از صورت‌تمرین تا PDF و Git](docs/WORKFLOW_ZERO_TO_PDF_FA.md) را ببین.
+کتابخانه‌ای مستقل از درس برای ساخت سندهای فارسی با **XeLaTeX و XePersian**. کد
+مشترک در `tex/` است؛ پاسخ تمرین، اطلاعات شخصی و دارایی‌های هر سند فقط در پروژهٔ
+جداگانهٔ همان سند قرار می‌گیرند.
 
+## انتخاب قالب
 
-یک مجموعهٔ مستقل از درس برای ساخت سندهای فارسی با **XeLaTeX + XePersian**.
-هدف: هر قطعه (فونت، سربرگ، جدول رنگی، فرمول، جعبهٔ نکته و ...) تنها یک‌بار نوشته شود و در تمام پروژه‌های بعدی دوباره استفاده شود.
+| قالب | کاربرد | استایل لازم |
+|---|---|---|
+| `assignment` | تکلیف چندسؤالی | `tex/persian-kit.sty` |
+| `lab-report` | پیش‌گزارش و گزارش نهایی آزمایشگاه | `persian-kit.sty` و `persian-lab.sty` |
+| `os-single-question` | فرم تاریخی تک‌سؤال با سربرگ، جدول دو نفر و کد C | `tex/persian-os.sty` |
 
-**این ریپو مخصوص یک درس نیست.** پاسخ تمرین‌ها و اطلاعات شخصی باید در ریپو/پوشهٔ جدا نگهداری شوند. این ریپو فقط قالب‌ها و مثال‌های عمومی را نگه می‌دارد.
+قالب OS یک سؤال در هر PDF نگه می‌دارد و از ظاهر تکلیف عمومی مستقل است.
+`gallery.tex` قطعات اصلی را نمایش می‌دهد؛ نمونه‌های بیشتر در `examples/snippets/`
+و [فهرست قطعات](docs/COMPONENTS_FA.md) هستند.
 
-## ساختار
+## پیش‌نیازها
 
-```text
-persian-latex-kit/
-├── tex/persian-kit.sty          # کتابخانهٔ اصلی؛ تنظیمات و دستورات اشتراکی
-├── gallery.tex       # تست و کاتالوگ قالب‌ها
-├── examples/snippets/         # نمونهٔ استفاده از هر کامپوننت
-├── templates/assignment/      # نقطهٔ شروع یک تمرین جدید (بدون اطلاعات شخصی)
-├── docs/                     # راهنمای ویندوز، گیت و دستورهای آماده
-├── scripts/                  # ابزار ایجاد پروژهٔ جدید و کامپایل
-├── .gitignore
-└── CHANGELOG.md
-```
+- Python 3 برای ساخت پروژه (بدون بستهٔ Python اضافی).
+- TeX Live یا MiKTeX شامل XeLaTeX، XePersian و بسته‌های لازم برای کامپایل.
+- فونت نصب‌شدهٔ **Vazirmatn** برای ظاهر پیش‌فرض. فونت‌ها در این مخزن توزیع نمی‌شوند.
+- TeXstudio اختیاری است؛ کامپایلر آن را روی XeLaTeX تنظیم کنید.
+- Git فقط برای حالت پیشرفتهٔ `--git` یا `-Git` لازم است.
 
-## قالب مادر تکلیف (جدید در نسخهٔ ۱٫۲)
+## ساخت پروژهٔ مستقل (حالت پیش‌فرض)
 
-قالب آماده داخل `templates/assignment/` قرار دارد. برای هر درس یک پروژه مستقل بساز؛ هویت دانشجو و پاسخ‌ها داخل ریپوی کتابخانه قرار نگیرند. راهنمای کامل: [قالب مادر تمرین](docs/HOMEWORK_TEMPLATE_FA.md).
+از ریشهٔ این مخزن اجرا کنید. مقصد نباید وجود داشته باشد.
 
-## شروع سریع
-
-۱. روی Windows، TeX Live و TeXstudio را نصب و XeLaTeX را به‌عنوان کامپایلر انتخاب کن.
-۲. فونت **Vazirmatn (وزیرمتن)** در وزن‌های Regular و Bold را از [مخزن رسمی](https://github.com/rastikerdar/vazirmatn/releases) دریافت و در ویندوز نصب کن. فایل فونت در این ریپو توزیع **نمی‌شود**؛ در نبود آن کامپایل با خطای واضح متوقف می‌شود، نه با تغییر پنهانی فونت.
-۳. فایل `gallery.tex` را در TeXstudio باز و با XeLaTeX اجرا کن.
-۴. دستورهای کاربردی در [راهنمای قطعات](docs/COMPONENTS_FA.md) توضیح داده شده‌اند.
-
-## استفاده از کتابخانه در هر درس با Git Submodule
-
-بعد از اینکه ریپو را در GitHub ساختی، در ریشهٔ پروژهٔ درسی:
+**Windows، PowerShell:**
 
 ```powershell
-git init
-git submodule add https://github.com/YOUR_USERNAME/persian-latex-kit.git vendor/persian-latex-kit
+.\scripts\new-assignment.ps1 -Destination "C:\Documents\my-assignment"
+.\scripts\new-lab-report.ps1 -Destination "C:\Documents\my-lab"
+.\scripts\new-os-homework.ps1 -Destination "C:\Documents\my-question" -QuestionNumber "۲"
 ```
 
-در `main.tex` پروژه:
+**Ubuntu/Linux:**
+
+```sh
+python3 scripts/new-project.py --template assignment --destination "$HOME/Documents/my-assignment"
+python3 scripts/new-project.py --template lab-report --destination "$HOME/Documents/my-lab"
+python3 scripts/new-project.py --template os-single-question --destination "$HOME/Documents/my-question" --question-number ۲
+```
+
+پروژهٔ تازه، فایل‌های قالب و استایل‌های لازم را در
+`vendor/persian-latex-kit/tex/` دارد. به این مخزن، GitHub یا اینترنت وابسته نیست؛
+`.git` و `.gitmodules` هم ساخته نمی‌شوند. این یک نسخهٔ ثابت است و خودکار به‌روز
+نمی‌شود. پروژه‌های ساخته‌شدهٔ قبلی تغییر نمی‌کنند.
+
+در پروژهٔ تازه، `config/metadata.tex` را برای مشخصات و `config/fonts.tex` را
+برای فونت‌های اختیاری ویرایش کنید. سپس محتوا را در `questions/` یا `sections/`
+بنویسید و همیشه `main.tex` را از ریشهٔ پروژه کامپایل کنید.
+
+## فونت و کامپایل
+
+پیش‌فرض فارسی Vazirmatn با مقیاس فعلی است؛ متن و رقم‌های فارسی و رقم‌های ریاضی
+از همان فونت استفاده می‌کنند. انتخاب لاتین پیش‌فرض Times New Roman در صورت
+وجود و در غیر این صورت Liberation Serif است. برای Noto Sans Arabic یا فونت
+نصب‌شدهٔ دیگر، خط دلخواه را در `config/fonts.tex` فعال کنید:
 
 ```latex
-\documentclass[12pt,a4paper]{article}
-\usepackage{vendor/persian-latex-kit/tex/persian-kit}
-\begin{document}
-\MakeHomeworkTitle
-\section*{سؤال ۱}
-متن تمرین.
-\end{document}
+\newcommand{\PLKPersianFont}{Noto Sans Arabic}
+\newcommand{\PLKLatinFont}{Latin Modern Roman}
 ```
 
-برای دریافت نسخهٔ جدید کتابخانه در پروژه‌های قبلی:
+می‌توان هر کدام را جداگانه انتخاب کرد. فونت انتخاب‌شده اگر در دسترس نباشد،
+کامپایل با خطا متوقف می‌شود. [راهنمای قطعات و فونت](docs/COMPONENTS_FA.md)
+جزئیات بیشتری دارد.
 
-```powershell
-git -C vendor/persian-latex-kit pull --ff-only origin main
-git add vendor/persian-latex-kit
-git commit -m "Update Persian LaTeX Kit"
+در TeXstudio، `main.tex` را باز و XeLaTeX را اجرا کنید. روش خط فرمان از ریشهٔ
+**پروژهٔ ساخته‌شده**:
+
+```sh
+xelatex -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-> اگر شاخهٔ پیش‌فرض ریپوی تو `main` نیست، آن را جایگزین کن. Submodule نسخهٔ دقیق کتابخانه را در هر پروژه ثابت نگه می‌دارد و آپدیت را اختیاری می‌کند. از کپی مستقیم `sty` در ده تمرین مختلف خودداری می‌کنیم.
+برای ارجاعات یا شکل/جدول شماره‌دار، اجرای دوم ممکن است لازم باشد. اگر `latexmk`
+هم در توزیع لاتک نصب است، می‌تواند دفعات لازم را خودکار اجرا و خروجی را در
+`build/` نگه دارد:
 
-## توسعه و نسخه‌بندی
-
-- تغییر ظاهر مشترک: در `tex/persian-kit.sty` و نه در تک‌تک تمرین‌ها.
-- قطعهٔ جدید: کد عمومی + مثال در `examples/snippets/` + راهنما + یادداشت در `CHANGELOG.md`.
-- هر تغییر جدید: یک **Git commit**؛ برای نسخه‌های پایدار Git tag مانند `v1.1.0`.
-- اطلاعات دانشجو، پاسخ تمرین‌های واقعی، پسورد، فایل‌های فونت و PDFهای موقت در این ریپوی عمومی قرار نمی‌گیرند.
-- برای تنظیم گیت و ساخت ریپو: [راهنمای Git](docs/GIT_WORKFLOW_FA.md).
-
-## یادداشت
-
-ساختار فعلی شامل جعبه، جدول، فرمول، شکل، عنوان استاندارد تمرین و شماره صفحهٔ فارسی است. «کدبلاک» را وقتی نیاز واقعی داشتیم با انتخاب syntax highlighting مناسب اضافه می‌کنیم؛ فعلاً قالبی برای آن ادعا نشده است.
-
-## قالب گزارش آزمایشگاه (افزوده‌شده)
-برای تهیهٔ پیش‌گزارش و گزارش نهایی از `templates/lab-report/`، کتابخانهٔ `tex/persian-lab.sty` و راهنمای [گزارش آزمایشگاه](docs/LAB_REPORT_FA.md) استفاده کنید. اسکریپت `scripts/new-lab-report.ps1` یک پروژهٔ مستقل ایجاد می‌کند.
-
-## قالب تک‌سؤال سیستم‌عامل، افزونهٔ همین کتابخانه
-
-این قابلیت از `tex/persian-os.sty` و `templates/os-single-question/` استفاده
-می‌کند تا ظاهر فرم Word قبلی در XeLaTeX بازسازی شود، بدون دست‌زدن به طراحی
-تکلیف عمومی و گزارش آزمایشگاه. پاسخ هر سؤال در فایل `.tex` خود نوشته و به
-PDF جداگانه تبدیل می‌شود؛ فایل‌های `.md` فقط مستندات مخزن هستند.
-
-بعد از commit و push استایل در مخزن مرکزی، دستور زیر به‌صورت پیش‌فرض **Git
-Submodule** را با remote `origin` همین کتابخانه می‌سازد:
-
-```powershell
-.\scripts\new-os-homework.ps1 -Destination "E:\uni\os\HW2_Q1" -QuestionNumber "۱"
+```sh
+latexmk -xelatex -outdir=build main.tex
 ```
 
-برای ساخت مستقل از اینترنت، گزینهٔ صریح `-Offline` را اضافه کن. به Python 3
-و برای حالت اصلی به Git نیاز است. راهنمای RTL، پرانتز، نشانه‌گذاری و کامپایل:
-[قالب تک‌سؤال](docs/OS_SINGLE_QUESTION_FA.md).
+این فرمان‌ها همچنان به توزیع محلی لاتک، XePersian و فونت نصب‌شده نیاز دارند.
+[راهنمای شروع تا PDF](docs/WORKFLOW_ZERO_TO_PDF_FA.md) و
+[نصب ویندوز](docs/WINDOWS_SETUP_FA.md) برای رفع خطاها هستند.
+
+## حالت اختیاری Git Submodule
+
+برای پروژه‌ای که عمداً باید نسخهٔ کتابخانه را با Git نگه دارد:
+
+```sh
+python3 scripts/new-project.py --template assignment --destination ./my-project --git --repository-url https://github.com/goodguy-not/persian-latex-kit.git
+```
+
+در PowerShell، `-Git -RepositoryUrl URL` را به یکی از wrapperها بدهید. برای
+سازگاری با فرمان‌های قدیمی، دادن `-RepositoryUrl` به‌تنهایی نیز حالت Git را
+فعال می‌کند. این حالت به Git و دسترسی به مخزن نیاز دارد. به‌روزرسانی submodule
+بعداً فقط با اقدام صریح صاحب پروژه انجام می‌شود. [راهنمای Git](docs/GIT_WORKFLOW_FA.md).
+
+## توسعه و آزمون
+
+کد قابل‌استفادهٔ مجدد در `tex/`، نمونه‌ها در `examples/snippets/`، قالب‌ها در
+`templates/`، مولدها در `scripts/`، آزمون‌ها در `tests/` و راهنماها در `docs/`
+هستند. هر تغییر عمومی باید نمونه، راهنما، یادداشت در `CHANGELOG.md` و آزمون
+کامپایل و بازبینی PDF داشته باشد. مجوز نرم‌افزار هنوز توسط صاحب مخزن انتخاب نشده
+است؛ این کار جزو این مرحله نیست.

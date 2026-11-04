@@ -15,13 +15,17 @@
 \RequirePackage{xepersian} % Always last in the package-loading sequence.
 \providecommand\UseMathForPositioningText{}
 
-% Keep the very same Persian typeface and scale as tex/persian-kit.sty.
-% No hidden font substitution: every homework should render consistently.
+% Keep the same default Persian typeface and scale as persian-kit.sty.
+% Project font overrides are read before this style is loaded.
 % Optional portable mode (without system installation): put
 %   Vazirmatn-Regular.ttf + Vazirmatn-Bold.ttf in your project's fonts/
 % and define \OSVazirmatnPath as {fonts} BEFORE loading persian-os.
 % The directory is relative to main.tex's working directory.
 \ifdefined\OSVazirmatnPath
+  \ifdefined\PLKPersianFont
+    \PackageError{persian-os}{Choose PLKPersianFont or OSVazirmatnPath, not both}%
+      {Remove one selection from config/fonts.tex.}%
+  \fi
   % The project explicitly asked for local fonts (without installing them).
   \IfFileExists{\OSVazirmatnPath/Vazirmatn-Regular.ttf}{%
     \IfFileExists{\OSVazirmatnPath/Vazirmatn-Bold.ttf}{%
@@ -36,23 +40,28 @@
   }{\PackageError{persian-os}{Missing Vazirmatn-Regular.ttf in OSVazirmatnPath}%
       {Place both Vazirmatn-Regular.ttf and Vazirmatn-Bold.ttf in the specified directory.}}%
 \else
-  % Same default behavior and font scale as the shared persian-kit.sty.
-  \IfFontExistsTF{Vazirmatn}{%
-    \settextfont[Scale=1.05]{Vazirmatn}%
-    \settextdigitfont[Scale=1.05]{Vazirmatn}%
-    \setmathdigitfont[Scale=1.05]{Vazirmatn}%
+  \providecommand{\PLKPersianFont}{Vazirmatn}
+  \IfFontExistsTF{\PLKPersianFont}{%
+    \settextfont[Scale=1.05]{\PLKPersianFont}%
+    \settextdigitfont[Scale=1.05]{\PLKPersianFont}%
+    \setmathdigitfont[Scale=1.05]{\PLKPersianFont}%
   }{%
-    \PackageError{persian-os}{Required font Vazirmatn not found}%
-      {Install Vazirmatn Regular and Bold, restart TeXstudio and use XeLaTeX;%
-       or put both TTF files in fonts/ and set OSVazirmatnPath=fonts before loading.}%
+    \PackageError{persian-os}{Required Persian font \PLKPersianFont\space not found}%
+      {Install the selected font or change config/fonts.tex; compile with XeLaTeX.}%
   }%
 \fi
-% Use the same Latin-font selection as the existing persian-kit template.
-\IfFontExistsTF{Times New Roman}{%
-  \setlatintextfont{Times New Roman}%
-}{%
-  \setlatintextfont{Liberation Serif}%
-}
+\ifdefined\PLKLatinFont
+  \IfFontExistsTF{\PLKLatinFont}{\setlatintextfont{\PLKLatinFont}}{%
+    \PackageError{persian-os}{Required Latin font \PLKLatinFont\space not found}%
+      {Install the selected font or change config/fonts.tex.}%
+  }
+\else
+  \IfFontExistsTF{Times New Roman}{%
+    \setlatintextfont{Times New Roman}%
+  }{%
+    \setlatintextfont{Liberation Serif}%
+  }
+\fi
 
 \definecolor{OSNavy}{HTML}{1C354D}
 \definecolor{OSTeal}{HTML}{17707B}

@@ -20,22 +20,29 @@
 % Keep this harmless fallback until the upstream packages provide it.
 \providecommand\UseMathForPositioningText{}
 
-% ---- Fonts: Vazirmatn is required for Persian text and digits. ----
-% Install the Regular and Bold fonts on the machine; do not commit font files.
-% Fail loudly rather than silently changing the appearance of the PDF.
-\IfFontExistsTF{Vazirmatn}{%
-  \settextfont[Scale=1.05]{Vazirmatn}%
-  \settextdigitfont[Scale=1.05]{Vazirmatn}%
-  \setmathdigitfont[Scale=1.05]{Vazirmatn}%
+% Define PLKPersianFont/PLKLatinFont before loading this package to override.
+% Vazirmatn and the previous Latin selection remain the defaults.
+\providecommand{\PLKPersianFont}{Vazirmatn}
+\IfFontExistsTF{\PLKPersianFont}{%
+  \settextfont[Scale=1.05]{\PLKPersianFont}%
+  \settextdigitfont[Scale=1.05]{\PLKPersianFont}%
+  \setmathdigitfont[Scale=1.05]{\PLKPersianFont}%
 }{%
-  \PackageError{persian-kit}{Required font Vazirmatn not found}%
-    {Install Vazirmatn Regular and Bold system-wide, restart the editor, and compile with XeLaTeX.}%
+  \PackageError{persian-kit}{Required Persian font \PLKPersianFont\space not found}%
+    {Install the selected font, check config/fonts.tex, and compile with XeLaTeX.}%
 }
-\IfFontExistsTF{Times New Roman}{%
-  \setlatintextfont{Times New Roman}%
-}{%
-  \setlatintextfont{Liberation Serif}%
-}
+\ifdefined\PLKLatinFont
+  \IfFontExistsTF{\PLKLatinFont}{\setlatintextfont{\PLKLatinFont}}{%
+    \PackageError{persian-kit}{Required Latin font \PLKLatinFont\space not found}%
+      {Install the selected font or change config/fonts.tex.}%
+  }
+\else
+  \IfFontExistsTF{Times New Roman}{%
+    \setlatintextfont{Times New Roman}%
+  }{%
+    \setlatintextfont{Liberation Serif}%
+  }
+\fi
 % Font digits follow the selected Persian typeface.
 
 % ---- Theme palette (change these hex codes to recolor the whole project). ----

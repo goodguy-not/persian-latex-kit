@@ -6,4 +6,4 @@
 - Metadata are in `config/metadata.tex` only; keep private student information outside the public kit repository.
 - Draft final answers in Persian. Isolate English technical names with `\lr{}` or `\OSLatin{}`; use `latin` + `lstlisting` for C code, and mathematical environments for formulas.
 - Avoid making up assumptions, outputs or experiments. Verify the task statement, calculations, and process trees before handing in an answer.
-- XeLaTeX must compile and the PDF must be visually reviewed for RTL, margins, long answers, code, table, and page footer. Never change the selected font to hide a compilation error.
+- XeLaTeX must compile and the PDF must be visually reviewed for RTL, margins, long answers, code, table, and page footer. Vazirmatn is the current default; choose an optional installed font only in `config/fonts.tex`. Never change the selected font to hide a compilation error.

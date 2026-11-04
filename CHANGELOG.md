@@ -1,3 +1,13 @@
+## Unreleased — Foundation improvements (2026-11-04)
+- Make generated assignment, lab, and OS projects standalone snapshots by default, with explicit Git submodule mode retained.
+- Share a standard-library Python generator across templates and keep PowerShell entry points as thin wrappers; stage projects before final placement.
+- Add pre-load project font configuration for installed Persian and Latin fonts while preserving Vazirmatn and existing Latin defaults.
+- Clarify the current Vazirmatn OS default, neutralize OS starter metadata, and remove historical submission guidance from current docs.
+- Generalize circuit-specific lab starter headings without changing its layout or two-stage behavior.
+- Allow source PDF assets in generated Git projects and keep font binaries ignored.
+- Add generator and font regression coverage; document Windows/Ubuntu creation and optional latexmk compilation.
+- Resolve destination symlinks before toolkit-boundary checks and reject Git submodule styles that differ from the local template's required styles.
+
 ## Documentation: Latin text and English equivalents — 2026-11-01
 - Clarify `\lr{}` for ordinary Latin without parentheses, `\EN{}` for a parenthesized English equivalent, and `\Term{}{}` for a Persian term with its parenthesized English equivalent.
 - Update AI instructions, component examples and the Windows workflow guide. No changes to macros, fonts or public LaTeX API.
