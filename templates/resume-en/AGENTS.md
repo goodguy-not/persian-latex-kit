@@ -1,5 +1,7 @@
 # English CV project guidance
 
+Begin with `AI_START_HERE.md` and `AI_MACROS.md` in this generated project.
+
 This is the default Article variant of `resume-en`; the separate ModernCV
 variant is selected with `--style moderncv` during generation.
 

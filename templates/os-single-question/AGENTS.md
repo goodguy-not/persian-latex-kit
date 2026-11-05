@@ -1,5 +1,8 @@
 # AI instructions: one-question Operating Systems template
 
+Begin with this generated project's `AI_START_HERE.md` and `AI_MACROS.md`;
+they describe the OS API actually present in this snapshot.
+
 - Read `main.tex`, `config/metadata.tex`, `questions/questionNN.tex`, and `vendor/persian-latex-kit/tex/persian-os.sty` before making changes.
 - Preserve the layout of the supplied OS Word template. Do not introduce the generic `\MakeHomeworkTitle` or `\HWQuestion` styles.
 - Each independent project builds **one question only**. Edit only the answer in the single `questions/questionNN.tex`; create another project for a second question. Never concatenate several theoretical questions into the same PDF by default.

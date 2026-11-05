@@ -1,3 +1,8 @@
+## Unreleased — AI-ready documentation and chat-only onboarding
+- Document the source-verified public macro API, including the case-sensitive `\EN` semantics and project-specific availability.
+- Add a chat-only handbook, Persian starter prompt, and workflow for proposing reusable components.
+- Package project-specific `AI_START_HERE.md` and `AI_MACROS.md` from canonical documentation in each generated project; add focused regression checks.
+
 ## Unreleased — Letter and resume templates (2026-11-05)
 - Reduce over-reservation of Persian letter closings and tighten optional Modern administrative letterhead spacing; document Linux font discovery for XeLaTeX.
 - Add a second production English CV with ModernCV while preserving the Article CV as the default; `resume-en --style article|moderncv` selects either explicitly.

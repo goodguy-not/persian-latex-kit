@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -49,6 +50,20 @@ def replace_once(path: Path, before: str, after: str) -> None:
     path.write_text(text.replace(before, after), encoding="utf-8")
 
 
+def project_guidance(source: str, project_type: str) -> str:
+    """Select the marked sections of one canonical Markdown guide."""
+    chunks = re.split(r"(?=^## )", source, flags=re.MULTILINE)
+    selected = [chunks[0]]
+    for chunk in chunks[1:]:
+        marker = re.search(r"^<!-- projects: ([^>]+) -->$", chunk, re.MULTILINE)
+        if marker and ("all" in marker.group(1).split(",") or
+                       project_type in marker.group(1).split(",")):
+            selected.append(chunk.replace(marker.group(0) + "\n", "", 1))
+    if len(selected) == 1:
+        raise RuntimeError(f"No AI guidance sections for {project_type}")
+    return "\n\n".join(part.strip() for part in selected).strip() + "\n"
+
+
 def configure_os(project: Path, question_number: str, assignment_number: str | None) -> str:
     metadata = project / "config" / "metadata.tex"
     if assignment_number is not None:
@@ -72,7 +87,8 @@ def configure_os(project: Path, question_number: str, assignment_number: str | N
 
 def required_files(project: Path, template: str) -> tuple[Path, ...]:
     common = (project / "main.tex", project / "config" / "metadata.tex",
-              project / "config" / "fonts.tex")
+              project / "config" / "fonts.tex", project / "AI_START_HERE.md",
+              project / "AI_MACROS.md")
     content = {
         "assignment": (project / "questions" / "question01.tex",),
         "lab-report": (project / "sections" / "01-objective.tex",
@@ -144,8 +160,8 @@ def build(args: argparse.Namespace) -> Path:
     if style_main and not style_main.is_file():
         raise FileNotFoundError(f"Missing letter style: {style_main}")
     if not git_mode:
-        for style in STYLES[template]:
-            source = source_kit / "tex" / style
+        for vendor_style in STYLES[template]:
+            source = source_kit / "tex" / vendor_style
             if not source.is_file():
                 raise FileNotFoundError(f"Missing required style: {source}")
     repository_url = (args.repository_url or origin_url(KIT)) if git_mode else None
@@ -159,6 +175,21 @@ def build(args: argparse.Namespace) -> Path:
         source_name = None
         if template == "os-single-question":
             source_name = configure_os(project, args.question_number, args.assignment_number)
+        guidance_type = (f"resume-{style or 'article'}" if template == "resume-en"
+                         else template)
+        selected_style = style or ("article" if template == "resume-en" else "built-in")
+        for source, target in (("AI_HANDBOOK.md", "AI_START_HERE.md"),
+                               ("MACRO_REFERENCE.md", "AI_MACROS.md")):
+            guide = (KIT / "docs" / source).read_text(encoding="utf-8")
+            content = project_guidance(guide, guidance_type).split("\n", 1)[1].lstrip()
+            if source_name:
+                content = content.replace("questions/questionNN.tex",
+                                          f"questions/{source_name}.tex")
+            heading = (f"# {target.removesuffix('.md')}\n\n"
+                       f"Project type: `{template}`. Selected style: `{selected_style}`. "
+                       "Main source: `main.tex`.\n\n")
+            (project / target).write_text(
+                heading + content, encoding="utf-8")
         vendor = project / "vendor" / "persian-latex-kit"
         if repository_url:
             run("git", "init", "-b", "main", cwd=project)
