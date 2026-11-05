@@ -1,0 +1,26 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper]{letter}
+\usepackage[a4paper,top=28mm,bottom=27mm,left=29mm,right=29mm]{geometry}
+\usepackage{fontspec}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\input{config/fonts}
+\IfFontExistsTF{\LetterSerifFont}{}{\PackageError{letter-en}{Missing serif font: \LetterSerifFont}{Install it or edit config/fonts.tex.}}
+\setmainfont{\LetterSerifFont}
+\input{config/metadata}
+\input{letter-parts}
+\address{\EnglishSenderAddress}
+\signature{\EnglishSignature}
+\date{\LetterDateEn}
+
+\begin{document}
+\begin{letter}{\EnglishRecipientAddress}
+\opening{\textbf{Subject: \LetterSubjectEn}\\[0.8\baselineskip]\LetterGreetingEn}
+\input{content/body}\par
+\Needspace{11\baselineskip}
+\begin{samepage}
+\input{content/final-paragraph}\par
+\closing{\LetterClosingEn}
+\end{samepage}
+\end{letter}
+\end{document}

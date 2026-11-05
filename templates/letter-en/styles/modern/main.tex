@@ -1,0 +1,35 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper,fromalign=right,fromrule=afteraddress,backaddress=false,foldmarks=false,subject=beforeopening,parskip=half]{scrlttr2}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\input{config/fonts}
+\IfFontExistsTF{\LetterSansFont}{}{\PackageError{letter-en}{Missing sans font: \LetterSansFont}{Install it or edit config/fonts.tex.}}
+\setmainfont{\LetterSansFont}
+\input{config/metadata}
+\input{letter-parts}
+\definecolor{LetterInk}{HTML}{263F48}
+\setkomafont{fromname}{\Large\bfseries\color{LetterInk}}
+\setkomafont{subject}{\large\bfseries\color{LetterInk}}
+\setkomavar{fromname}{\SenderNameEn}
+\setkomavar{fromaddress}{\EnglishFromDetails}
+\setkomavar{date}{\LetterDateEn}
+\setkomavar{subject}{\LetterSubjectEn}
+\setkomavar{signature}{\EnglishSignature}
+\setplength{toaddrvpos}{40mm}
+\setplength{refvpos}{87mm}
+\setplength{sigbeforevskip}{\baselineskip}
+\emergencystretch=1em
+
+\begin{document}
+\begin{letter}{\EnglishRecipientAddress}
+\opening{\LetterGreetingEn}
+\input{content/body}\par
+\Needspace{11\baselineskip}
+\begin{samepage}
+\input{content/final-paragraph}\par
+\closing{\LetterClosingEn}
+\end{samepage}
+\end{letter}
+\end{document}

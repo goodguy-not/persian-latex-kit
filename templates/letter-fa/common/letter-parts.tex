@@ -1,0 +1,37 @@
+% Small shared pieces for the two article-based Persian presentations.
+\newcommand{\FaOptionalOpening}{%
+  \ifdefempty{\LetterOpeningPhraseFa}{}{%
+    \begin{center}\bfseries\LetterOpeningPhraseFa\end{center}}}
+\newcommand{\FaOptionalLogo}{%
+  \ifdefempty{\SenderLogoFa}{}{%
+    \IfFileExists{\SenderLogoFa}
+      {\includegraphics[width=.4\linewidth,height=13mm,keepaspectratio]{\SenderLogoFa}}
+      {\PackageError{letter-fa}{Sender logo not found: \SenderLogoFa}
+        {Set a valid sender-owned asset path or leave SenderLogoFa empty.}}%
+  }}
+\newcommand{\FaOrganizationLine}{%
+  \ifdefempty{\SenderOrganizationFa}{}{\SenderOrganizationFa\\[2pt]}}
+\newif\ifFaContactPrinted
+\newcommand{\FaContactSeparator}{%
+  \ifFaContactPrinted\quad|\quad\fi\FaContactPrintedtrue}
+\newcommand{\FaContactLine}{%
+  \FaContactPrintedfalse
+  \ifdefempty{\SenderAddressFa}{}{\FaContactSeparator\SenderAddressFa}%
+  \ifdefempty{\SenderEmailFa}{}{\FaContactSeparator\lr{\SenderEmailFa}}%
+  \ifdefempty{\SenderPhoneFa}{}{\FaContactSeparator\lr{\SenderPhoneFa}}}
+\newcommand{\FaIfContactTF}[2]{%
+  \ifdefempty{\SenderAddressFa}{%
+    \ifdefempty{\SenderEmailFa}{%
+      \ifdefempty{\SenderPhoneFa}{#2}{#1}}{#1}}{#1}}
+\newcommand{\FaAdminDetails}{%
+  \textbf{تاریخ:} \LetterDateFa\par
+  \ifdefempty{\LetterNumberFa}{}{\textbf{شماره:} \LetterNumberFa\par}%
+  \ifdefempty{\LetterAttachmentFa}{}{\textbf{پیوست:} \LetterAttachmentFa\par}}
+\newcommand{\FaRecipientDetails}{%
+  \textbf{\RecipientRoleFa}\\
+  \RecipientOrgFa\\
+  \RecipientAddressFa}
+\newcommand{\FaClosingBlock}{%
+  \LetterClosingFa\\[4mm]
+  \textbf{\SenderNameFa}%
+  \ifdefempty{\SignatureTitleFa}{}{\\\SignatureTitleFa}}

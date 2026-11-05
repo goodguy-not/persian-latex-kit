@@ -11,15 +11,23 @@
 | `assignment` | تکلیف چندسؤالی | `tex/persian-kit.sty` |
 | `lab-report` | پیش‌گزارش و گزارش نهایی آزمایشگاه | `persian-kit.sty` و `persian-lab.sty` |
 | `os-single-question` | فرم تاریخی تک‌سؤال با سربرگ، جدول دو نفر و کد C | `tex/persian-os.sty` |
+| `letter-fa` | نامهٔ فارسی اداری یا شخصی | `--style classic` یا `modern` |
+| `letter-en` | نامهٔ انگلیسی تجاری | `--style classic` یا `modern` |
+| `resume-en` | رزومهٔ انگلیسی قابل گسترش | پیش‌فرض Article؛ `--style moderncv` نیز موجود است |
 
 قالب OS یک سؤال در هر PDF نگه می‌دارد و از ظاهر تکلیف عمومی مستقل است.
 `gallery.tex` قطعات اصلی را نمایش می‌دهد؛ نمونه‌های بیشتر در `examples/snippets/`
 و [فهرست قطعات](docs/COMPONENTS_FA.md) هستند.
 
+راهنمای [نامه‌ها و رزومه](docs/DOCUMENT_TEMPLATES.md) کلاس‌های سند، تنظیمات،
+فونت‌ها و بخش‌های اختیاری قالب‌های جدید را شرح می‌دهد.
+
 ## پیش‌نیازها
 
 - Python 3 برای ساخت پروژه (بدون بستهٔ Python اضافی).
 - TeX Live یا MiKTeX شامل XeLaTeX، XePersian و بسته‌های لازم برای کامپایل.
+- قالب‌های نامه و رزومه به `fontspec` و `needspace` نیاز دارند؛ نامهٔ انگلیسی مدرن به KOMA-Script نیز نیاز دارد.
+- رزومهٔ ModernCV به کلاس `moderncv` نصب‌شده در توزیع TeX نیاز دارد؛ مولد بسته‌ای نصب نمی‌کند.
 - فونت نصب‌شدهٔ **Vazirmatn** برای ظاهر پیش‌فرض. فونت‌ها در این مخزن توزیع نمی‌شوند.
 - TeXstudio اختیاری است؛ کامپایلر آن را روی XeLaTeX تنظیم کنید.
 - Git فقط برای حالت پیشرفتهٔ `--git` یا `-Git` لازم است.
@@ -42,21 +50,33 @@
 python3 scripts/new-project.py --template assignment --destination "$HOME/Documents/my-assignment"
 python3 scripts/new-project.py --template lab-report --destination "$HOME/Documents/my-lab"
 python3 scripts/new-project.py --template os-single-question --destination "$HOME/Documents/my-question" --question-number ۲
+python3 scripts/new-project.py --template letter-fa --style classic --destination "$HOME/Documents/letter-fa"
+python3 scripts/new-project.py --template letter-en --style modern --destination "$HOME/Documents/letter-en"
+python3 scripts/new-project.py --template resume-en --destination "$HOME/Documents/resume"
+python3 scripts/new-project.py --template resume-en --style moderncv --destination "$HOME/Documents/resume-moderncv"
 ```
 
-پروژهٔ تازه، فایل‌های قالب و استایل‌های لازم را در
-`vendor/persian-latex-kit/tex/` دارد. به این مخزن، GitHub یا اینترنت وابسته نیست؛
+پروژهٔ تازهٔ تکلیف، آزمایشگاه یا OS استایل‌های لازم را در
+`vendor/persian-latex-kit/tex/` دارد. هیچ پروژهٔ مستقل به این مخزن، GitHub یا اینترنت وابسته نیست؛
 `.git` و `.gitmodules` هم ساخته نمی‌شوند. این یک نسخهٔ ثابت است و خودکار به‌روز
 نمی‌شود. پروژه‌های ساخته‌شدهٔ قبلی تغییر نمی‌کنند.
 
+قالب‌های نامه و رزومه استایل اشتراکی `tex/` لازم ندارند؛ همهٔ فایل‌های لازم را
+مستقیماً در پروژهٔ تازه کپی می‌کنند. برای ساخت نامه در PowerShell نیز همان رابط
+Python را اجرا کنید:
+
+```powershell
+python .\scripts\new-project.py --template letter-fa --style classic --destination "C:\Documents\my-letter"
+```
+
 در پروژهٔ تازه، `config/metadata.tex` را برای مشخصات و `config/fonts.tex` را
-برای فونت‌های اختیاری ویرایش کنید. سپس محتوا را در `questions/` یا `sections/`
-بنویسید و همیشه `main.tex` را از ریشهٔ پروژه کامپایل کنید.
+برای فونت‌های اختیاری ویرایش کنید. سپس محتوا را در `questions/`، `sections/`
+یا `content/` مطابق قالب بنویسید و همیشه `main.tex` را از ریشهٔ پروژه کامپایل کنید.
 
 ## فونت و کامپایل
 
-پیش‌فرض فارسی Vazirmatn با مقیاس فعلی است؛ متن و رقم‌های فارسی و رقم‌های ریاضی
-از همان فونت استفاده می‌کنند. انتخاب لاتین پیش‌فرض Times New Roman در صورت
+در قالب‌های تکلیف، آزمایشگاه و OS، پیش‌فرض فارسی Vazirmatn با مقیاس فعلی است؛ متن و رقم‌های فارسی و رقم‌های ریاضی
+از همان فونت استفاده می‌کنند. انتخاب لاتین پیش‌فرض این قالب‌ها Times New Roman در صورت
 وجود و در غیر این صورت Liberation Serif است. برای Noto Sans Arabic یا فونت
 نصب‌شدهٔ دیگر، خط دلخواه را در `config/fonts.tex` فعال کنید:
 
