@@ -1,5 +1,7 @@
 # Persian letter project guidance
 
+Begin with `AI_START_HERE.md` and `AI_MACROS.md` in this generated project.
+
 Edit only this generated project's metadata, font configuration, content and
 sender-owned assets. Preserve the selected article/XePersian presentation and
 Vazirmatn default unless the document requirements justify a change. Keep

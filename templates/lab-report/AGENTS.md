@@ -1,4 +1,5 @@
 # AI rules for laboratory reports
+- Begin with `AI_START_HERE.md` and `AI_MACROS.md` in this generated project.
 - This is a per-experiment project with copied styles by default; Git submodule use is an explicit option.
 - Read the laboratory manual and distinguish required simulation, theory, and optional physical assembly.
 - Do not claim measurements or physical assembly happened unless actual evidence is supplied.

@@ -1,5 +1,7 @@
 # English letter project guidance
 
+Begin with `AI_START_HERE.md` and `AI_MACROS.md` in this generated project.
+
 The class is fixed when this project is generated: standard `letter` for Classic
 or KOMA-Script `scrlttr2` for Modern. Preserve that class and the approved
 Termes/Heros font defaults unless a document requirement justifies a change.

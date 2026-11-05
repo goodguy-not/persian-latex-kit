@@ -20,6 +20,9 @@ Keep individual documents in generated projects outside this library.
   `--template resume-en --style moderncv`. The public default remains Article.
 - `scripts/`: Python project generator and thin Windows PowerShell entry points.
 - `examples/snippets/`, `docs/`, `tests/`: examples, guidance, and checks.
+- `docs/MACRO_REFERENCE.md` is the source-checked public API reference;
+  `docs/AI_HANDBOOK.md` and `docs/CHAT_STARTER_PROMPT_FA.md` guide chat-only work.
+  New projects carry relevant snapshots as `AI_START_HERE.md` and `AI_MACROS.md`.
 
 Generated projects are **standalone snapshots by default**. They copy only their
 required styles, if any, into `vendor/persian-latex-kit/tex/`, create no Git repository,
@@ -30,11 +33,13 @@ edit a consumer project's vendored copy when making a reusable library change.
 ## LaTeX and font conventions
 
 Read `README.md`, relevant template `main.tex`/metadata, style source, and
-`docs/COMPONENTS_FA.md` before an edit. Check source before claiming a macro
+`docs/MACRO_REFERENCE.md` before an edit. Check source before claiming a macro
 exists. Use XeLaTeX and XePersian for these Persian templates; keep Persian RTL.
 Use `\lr{}` for ordinary inline Latin, `\EN{}` for a parenthesized English
 equivalent, and `\Term{}{}` for bold Persian with its English equivalent.
 `\EN{}` adds its own parentheses.
+There is no `\En` definition: command names are case-sensitive. See the
+reference for exact scope, external package commands, and internal helpers.
 
 **Current default in all three templates is Vazirmatn** for Persian text and
 text/math digits. The OS layout used Noto Sans Arabic historically, but its
@@ -64,7 +69,8 @@ text. Preserve one question per OS project and PDF.
 
 - Put reusable components in `tex/`, general examples in `examples/snippets/`,
   template-specific files in `templates/`, documentation in `docs/`, and a
-  change entry in `CHANGELOG.md`. Reuse working components before adding one.
+  change entry in `CHANGELOG.md`. Follow `docs/EXTENDING_THE_KIT.md` before
+  proposing a new public component. Reuse working components before adding one.
 - Keep new templates separate where their language or document class requires
   different layout. Avoid a shared base class without demonstrated need.
 - Test generators with `python tests/test-project-generator.py` and
