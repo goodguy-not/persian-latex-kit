@@ -1,0 +1,23 @@
+% Metadata formatting shared by the standard-letter and KOMA wrappers.
+\newif\ifEnglishFromPrinted
+\newcommand{\EnglishFromLine}[1]{%
+  \ifdefempty{#1}{}{%
+    \ifEnglishFromPrinted\\\fi#1\EnglishFromPrintedtrue}}
+\newcommand{\EnglishSenderAddress}{%
+  \SenderNameEn\EnglishFromPrintedtrue
+  \EnglishFromLine{\SenderOrganizationEn}%
+  \EnglishFromLine{\SenderRoleEn}%
+  \EnglishFromLine{\SenderAddressEn}%
+  \EnglishFromLine{\SenderEmailEn}%
+  \EnglishFromLine{\SenderPhoneEn}}
+\newcommand{\EnglishFromDetails}{%
+  \EnglishFromPrintedfalse
+  \EnglishFromLine{\SenderOrganizationEn}%
+  \EnglishFromLine{\SenderRoleEn}%
+  \EnglishFromLine{\SenderAddressEn}%
+  \EnglishFromLine{\SenderEmailEn}%
+  \EnglishFromLine{\SenderPhoneEn}}
+\newcommand{\EnglishRecipientAddress}{%
+  \RecipientRoleEn\\\RecipientOrgEn\\\RecipientAddressEn}
+\newcommand{\EnglishSignature}{%
+  \SenderNameEn\ifdefempty{\SignatureTitleEn}{}{\\\SignatureTitleEn}}

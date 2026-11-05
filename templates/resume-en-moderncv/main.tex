@@ -1,0 +1,38 @@
+% !TeX program = xelatex
+\IfFileExists{moderncv.cls}{}{\PackageError{resume-en}{Missing moderncv class}{Install the moderncv package in your TeX distribution.}}
+\documentclass[11pt,a4paper,sans]{moderncv}
+\moderncvstyle[nosymbols]{classic}
+\moderncvcolor{black}
+\usepackage[scale=0.88]{geometry}
+\usepackage{fontspec}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\input{config/fonts}
+\IfFontExistsTF{\CVFont}{}{\PackageError{resume-en}{Missing CV font: \CVFont}{Install it or edit config/fonts.tex.}}
+\setmainfont{\CVFont}
+\setsansfont{\CVFont}
+\input{config/metadata}
+\setlength{\hintscolumnwidth}{27mm}
+\name{\CandidateGiven}{\CandidateFamily}
+\ifdefempty{\CandidateCity}{%
+  \ifdefempty{\CandidateCountry}{}{\address{\CandidateCountry}{}}%
+}{\address{\CandidateCity}{\CandidateCountry}}
+\ifdefempty{\CandidatePhone}{}{\phone[mobile]{\CandidatePhone}}
+\ifdefempty{\CandidateEmail}{}{\email{\CandidateEmail}}
+\ifdefempty{\CandidateHomepage}{}{\homepage{\CandidateHomepage}}
+\newcommand{\CVSection}[1]{\Needspace{5\baselineskip}\section{#1}}
+
+\begin{document}
+\makecvtitle
+\CVSection{Profile}
+\cvitem{}{\CandidateSummary}
+\input{sections/education}
+\input{sections/experience}
+\input{sections/projects}
+\input{sections/skills}
+\input{sections/languages}
+% Optional: comment out any line or add your own section file in this pattern.
+\input{sections/research}
+\input{sections/honors}
+\input{sections/publications}
+\end{document}

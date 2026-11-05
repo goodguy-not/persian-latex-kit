@@ -1,0 +1,58 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,top=16mm,bottom=16mm,left=19mm,right=19mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\input{config/fonts}
+\IfFontExistsTF{\CVFont}{}{\PackageError{resume-en}{Missing CV font: \CVFont}{Install it or edit config/fonts.tex.}}
+\setmainfont{\CVFont}
+\input{config/metadata}
+\definecolor{ResumeInk}{HTML}{263F48}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=14pt,itemsep=0pt,parsep=0pt,topsep=2pt}
+% Repeat these commands as often as needed; there are no numbered entry limits.
+\newcommand{\CVSection}[1]{%
+  \par\Needspace{5\baselineskip}\vspace{10pt}%
+  {\color{ResumeInk}\bfseries\MakeUppercase{#1}}\par\nobreak
+  \vspace{2pt}{\color{ResumeInk}\hrule height 0.65pt}\nobreak\vspace{4pt}}
+\newcommand{\CVDatedEntry}[3]{\textbf{#1}\hfill{\small #3}\\{\small #2}\par}
+\newcommand{\CVExperience}[4]{%
+  \Needspace{4\baselineskip}\CVDatedEntry{#1}{#2}{#3}%
+  \begin{itemize}\item #4\end{itemize}}
+\newcommand{\CVProject}[2]{\textbf{#1}\quad #2\par}
+\newcommand{\CVLine}[2]{\textbf{#1:} #2\par}
+\newif\ifCVContactPrinted
+\newcommand{\CVContactItem}[1]{%
+  \ifdefempty{#1}{}{%
+    \ifCVContactPrinted\quad|\quad\fi#1\CVContactPrintedtrue}}
+
+\begin{document}
+\begin{center}
+  {\fontsize{23}{25}\selectfont\bfseries\color{ResumeInk}\CandidateName}\par
+  \vspace{4pt}
+  \CVContactPrintedfalse
+  \CVContactItem{\CandidateLocation}%
+  \CVContactItem{\CandidatePhone}%
+  \CVContactItem{\CandidateEmail}%
+  \ifCVContactPrinted\par\fi
+  \ifdefempty{\CandidateHomepage}{}{\CandidateHomepage\par}
+\end{center}
+\vspace{-2pt}
+
+\CVSection{Profile}
+\CandidateSummary
+\input{sections/education}
+\input{sections/experience}
+\input{sections/projects}
+\input{sections/skills}
+\input{sections/languages}
+% Optional: comment out any line or add your own sections in the same pattern.
+\input{sections/research}
+\input{sections/honors}
+\input{sections/publications}
+\end{document}

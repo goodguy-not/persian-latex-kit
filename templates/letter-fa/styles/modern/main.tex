@@ -1,0 +1,59 @@
+% !TeX program = xelatex
+\documentclass[12pt,a4paper]{article}
+\usepackage[a4paper,top=22mm,bottom=22mm,left=28mm,right=28mm]{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage{xepersian}
+\input{config/fonts}
+\IfFontExistsTF{\LetterPersianFont}{}{\PackageError{letter-fa}{Missing Persian font: \LetterPersianFont}{Install it or edit config/fonts.tex.}}
+\IfFontExistsTF{\LetterLatinFont}{}{\PackageError{letter-fa}{Missing Latin font: \LetterLatinFont}{Install it or edit config/fonts.tex.}}
+\settextfont{\LetterPersianFont}
+\setdigitfont{\LetterPersianFont}
+\setlatintextfont{\LetterLatinFont}
+\input{config/metadata}
+\input{letter-parts}
+\definecolor{LetterInk}{HTML}{263F48}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7\baselineskip}
+
+\begin{document}
+\FaOptionalOpening
+\FaOptionalLogo
+\ifdefempty{\SenderLogoFa}{}{\par}
+{\Huge\bfseries\color{LetterInk}\SenderNameFa}\par
+\vspace{1mm}
+\FaOrganizationLine
+{\color{LetterInk}\SenderRoleFa}\par
+\FaIfContactTF{{\small\FaContactLine}\par}{}
+\vspace{3mm}
+{\color{LetterInk}\rule{\linewidth}{0.8pt}}\par
+\vspace{4mm}
+
+\begin{flushleft}%
+  \ifdefempty{\LetterNumberFa}{%
+    \ifdefempty{\LetterAttachmentFa}{}{\setlength{\parskip}{0pt}}%
+  }{\setlength{\parskip}{0pt}}%
+  {\small\color{LetterInk}\FaAdminDetails}%
+\end{flushleft}
+
+{\small\color{LetterInk}به:}\par
+\FaRecipientDetails
+
+\vspace{4mm}
+{\Large\bfseries\color{LetterInk}\LetterSubjectFa}\par
+\vspace{1mm}
+{\color{LetterInk}\rule{34mm}{0.8pt}}\par
+\vspace{3mm}
+\LetterGreetingFa
+
+\input{content/body}\par
+\Needspace{7\baselineskip}
+\begin{samepage}
+\input{content/final-paragraph}\par
+\vspace{4mm}
+\FaClosingBlock
+\end{samepage}
+\end{document}

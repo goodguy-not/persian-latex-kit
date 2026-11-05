@@ -1,0 +1,52 @@
+% !TeX program = xelatex
+\documentclass[12pt,a4paper]{article}
+\usepackage[a4paper,top=27mm,bottom=28mm,left=29mm,right=29mm]{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage{xepersian}
+\input{config/fonts}
+\IfFontExistsTF{\LetterPersianFont}{}{\PackageError{letter-fa}{Missing Persian font: \LetterPersianFont}{Install it or edit config/fonts.tex.}}
+\IfFontExistsTF{\LetterLatinFont}{}{\PackageError{letter-fa}{Missing Latin font: \LetterLatinFont}{Install it or edit config/fonts.tex.}}
+\settextfont{\LetterPersianFont}
+\setdigitfont{\LetterPersianFont}
+\setlatintextfont{\LetterLatinFont}
+\input{config/metadata}
+\input{letter-parts}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7\baselineskip}
+
+\begin{document}
+\FaOptionalOpening
+\begin{center}
+  \FaOptionalLogo
+  \ifdefempty{\SenderLogoFa}{}{\\[3pt]}
+  \FaOrganizationLine
+  {\large\bfseries\SenderNameFa}\\[3pt]
+  {\small\SenderRoleFa}%
+  \FaIfContactTF{\\[2pt]{\small\FaContactLine}}{}
+\end{center}
+\vspace{2mm}
+\hrule height 0.45pt
+\vspace{7mm}
+
+\begin{flushleft}\FaAdminDetails\end{flushleft}
+\vspace{3mm}
+\FaRecipientDetails
+
+\vspace{3mm}
+\textbf{موضوع: \LetterSubjectFa}
+
+\vspace{4mm}
+\LetterGreetingFa
+
+\input{content/body}\par
+\Needspace{7\baselineskip}
+\begin{samepage}
+\input{content/final-paragraph}\par
+\vspace{5mm}
+\FaClosingBlock
+\end{samepage}
+\end{document}

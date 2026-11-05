@@ -1,3 +1,12 @@
+## Unreleased — Letter and resume templates (2026-11-05)
+- Reduce over-reservation of Persian letter closings and tighten optional Modern administrative letterhead spacing; document Linux font discovery for XeLaTeX.
+- Add a second production English CV with ModernCV while preserving the Article CV as the default; `resume-en --style article|moderncv` selects either explicitly.
+- Correct optional metadata checks in letters and CVs, constrain Persian logo height and width, and make pagination tests independent of an exact page count.
+- Add classic and modern Persian/English letters with shared metadata and content, optional Persian letterhead fields, and pagination controls for final paragraphs and signatures.
+- Add an article-based English CV with repeatable entries, optional sections, and section pagination controls.
+- Extend the shared generator with `letter-fa`, `letter-en`, `resume-en`, and generation-time `--style` selection for letters; standalone remains the default.
+- Add template guides, font configuration, generator and XeLaTeX tests, and rendered review artifacts. No font binaries are distributed.
+
 ## Unreleased — Foundation improvements (2026-11-04)
 - Make generated assignment, lab, and OS projects standalone snapshots by default, with explicit Git submodule mode retained.
 - Share a standard-library Python generator across templates and keep PowerShell entry points as thin wrappers; stage projects before final placement.

@@ -16,7 +16,11 @@ STYLES = {
     "assignment": ("persian-kit.sty",),
     "lab-report": ("persian-kit.sty", "persian-lab.sty"),
     "os-single-question": ("persian-os.sty",),
+    "letter-fa": (),
+    "letter-en": (),
+    "resume-en": (),
 }
+LETTER_VARIANTS = {"letter-fa", "letter-en"}
 ASSIGNMENT_LABELS = {
     "1": "اول", "2": "دوم", "3": "سوم", "4": "چهارم",
     "5": "پنجم", "6": "ششم", "7": "هفتم", "8": "هشتم",
@@ -79,6 +83,20 @@ def required_files(project: Path, template: str) -> tuple[Path, ...]:
                        project / "sections" / "05-results.tex",
                        project / "sections" / "06-conclusion.tex"),
         "os-single-question": tuple((project / "questions").glob("question*.tex")),
+        "letter-fa": (project / "letter-parts.tex",
+                      project / "content" / "body.tex",
+                      project / "content" / "final-paragraph.tex"),
+        "letter-en": (project / "letter-parts.tex",
+                      project / "content" / "body.tex",
+                      project / "content" / "final-paragraph.tex"),
+        "resume-en": (project / "sections" / "education.tex",
+                      project / "sections" / "experience.tex",
+                      project / "sections" / "projects.tex",
+                      project / "sections" / "skills.tex",
+                      project / "sections" / "languages.tex",
+                      project / "sections" / "research.tex",
+                      project / "sections" / "honors.tex",
+                      project / "sections" / "publications.tex"),
     }
     return common + content[template] + tuple(
         project / "vendor" / "persian-latex-kit" / "tex" / style
@@ -88,6 +106,13 @@ def required_files(project: Path, template: str) -> tuple[Path, ...]:
 
 def build(args: argparse.Namespace) -> Path:
     template = args.template
+    style = getattr(args, "style", None)
+    if template in LETTER_VARIANTS and style not in ("classic", "modern"):
+        raise ValueError("Letter templates require --style classic or --style modern")
+    if template == "resume-en" and style not in (None, "article", "moderncv"):
+        raise ValueError("Resume styles are article or moderncv")
+    if template not in LETTER_VARIANTS and template != "resume-en" and style is not None:
+        raise ValueError("--style applies only to letter-fa, letter-en, and resume-en")
     dest = Path(os.path.abspath(os.path.expanduser(args.destination)))
     if os.path.lexists(dest):
         raise ValueError(f"Destination already exists: {dest}")
@@ -108,11 +133,16 @@ def build(args: argparse.Namespace) -> Path:
     if template != "os-single-question" and args.assignment_number is not None:
         raise ValueError("--assignment-number applies only to the OS template")
     source_kit = Path(args.kit_path).expanduser().resolve() if args.kit_path else KIT
-    starter = KIT / "templates" / template
-    if not starter.is_dir():
-        raise FileNotFoundError(f"Missing template: {starter}")
-    if not (starter / "config" / "fonts.tex").is_file():
-        raise FileNotFoundError(f"Missing font configuration: {starter / 'config' / 'fonts.tex'}")
+    starter_name = "resume-en-moderncv" if template == "resume-en" and style == "moderncv" else template
+    starter = KIT / "templates" / starter_name
+    base = starter / "common" if template in LETTER_VARIANTS else starter
+    if not base.is_dir():
+        raise FileNotFoundError(f"Missing template: {base}")
+    if not (base / "config" / "fonts.tex").is_file():
+        raise FileNotFoundError(f"Missing font configuration: {base / 'config' / 'fonts.tex'}")
+    style_main = starter / "styles" / style / "main.tex" if template in LETTER_VARIANTS else None
+    if style_main and not style_main.is_file():
+        raise FileNotFoundError(f"Missing letter style: {style_main}")
     if not git_mode:
         for style in STYLES[template]:
             source = source_kit / "tex" / style
@@ -123,7 +153,9 @@ def build(args: argparse.Namespace) -> Path:
 
     with tempfile.TemporaryDirectory(prefix="plk-new-", dir=dest.parent) as work:
         project = Path(work) / "project"
-        shutil.copytree(starter, project)
+        shutil.copytree(base, project)
+        if style_main:
+            shutil.copy2(style_main, project / "main.tex")
         source_name = None
         if template == "os-single-question":
             source_name = configure_os(project, args.question_number, args.assignment_number)
@@ -134,10 +166,11 @@ def build(args: argparse.Namespace) -> Path:
                 "vendor/persian-latex-kit", cwd=project)
             mode = "Git submodule"
         else:
-            tex = vendor / "tex"
-            tex.mkdir(parents=True)
-            for style in STYLES[template]:
-                shutil.copy2(source_kit / "tex" / style, tex / style)
+            if STYLES[template]:
+                tex = vendor / "tex"
+                tex.mkdir(parents=True)
+                for vendor_style in STYLES[template]:
+                    shutil.copy2(source_kit / "tex" / vendor_style, tex / vendor_style)
             mode = "standalone snapshot"
         missing = [str(path.relative_to(project)) for path in required_files(project, template)
                    if not path.is_file()]
@@ -148,16 +181,16 @@ def build(args: argparse.Namespace) -> Path:
         if repository_url:
             # Local templates and cloned styles must come from the same source state.
             # Git may convert LF to CRLF on Windows; that does not change the style.
-            for style in STYLES[template]:
-                local_style = KIT / "tex" / style
-                cloned_style = vendor / "tex" / style
+            for vendor_style in STYLES[template]:
+                local_style = KIT / "tex" / vendor_style
+                cloned_style = vendor / "tex" / vendor_style
                 if not local_style.is_file():
                     raise FileNotFoundError(f"Missing local style for compatibility check: {local_style}")
                 local_content = local_style.read_bytes().replace(b"\r\n", b"\n")
                 cloned_content = cloned_style.read_bytes().replace(b"\r\n", b"\n")
                 if cloned_content != local_content:
                     raise RuntimeError(
-                        f"Incompatible Git submodule style: {style} differs from this toolkit. "
+                        f"Incompatible Git submodule style: {vendor_style} differs from this toolkit. "
                         "Publish matching styles to the Git repository or generate a standalone project."
                     )
         if os.path.lexists(dest):
@@ -180,6 +213,8 @@ def main(argv: list[str] | None = None) -> int:
             stream.reconfigure(errors="backslashreplace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--template", choices=tuple(STYLES), required=True)
+    parser.add_argument("--style", choices=("classic", "modern", "article", "moderncv"),
+                        help="Letters require classic or modern; resume-en defaults to article")
     parser.add_argument("--destination", required=True)
     parser.add_argument("--git", action="store_true", help="Use a Git submodule instead of a standalone snapshot")
     parser.add_argument("--repository-url", help="Git submodule URL; also enables Git mode")
